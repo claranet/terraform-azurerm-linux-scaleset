@@ -6,7 +6,6 @@ resource "azurerm_linux_virtual_machine_scale_set" "linux-vmss" {
   resource_group_name = var.resource_group_name
   sku                 = var.vms_sku
 
-  # computer_name_prefix = var.vm_name_prefix
   admin_username                  = var.admin_username
   admin_password                  = var.admin_password
   disable_password_authentication = var.admin_password != null ? false : true
@@ -54,10 +53,34 @@ resource "azurerm_linux_virtual_machine_scale_set" "linux-vmss" {
   }
 
   os_disk {
-    caching              = var.storage_profile_os_disk_caching
-    storage_account_type = var.storage_profile_os_disk_managed_disk_type
-    disk_size_gb         = var.storage_profile_os_disk_size_gb
+    caching              = var.os_disk_caching
+    storage_account_type = var.os_disk_managed_disk_type
+    dynamic "diff_disk_settings" {
+      for_each = var.os_disk_is_local ? ["fake"] : []
+      content {
+        option = "Local"
+      }
+    }
+    disk_encryption_set_id    = var.os_disk_encryption_set_id
+    disk_size_gb              = var.os_disk_size_gb
+    write_accelerator_enabled = var.os_disk_write_accelerator_enabled
   }
+
+  dynamic "data_disk" {
+    for_each = length(var.data_disks) != 0 ? var.data_disks : []
+    content {
+      caching                   = data_disk.caching
+      create_option             = data_disk.create_option
+      disk_size_gb              = data_disk.disk_size_gb
+      lun                       = data_disk.lun
+      storage_account_type      = data.storage_account_type
+      disk_encryption_set_id    = lookup(data_disk, "disk_encryption_set_id", null)
+      disk_iops_read_write      = lookup(data_disk, "disk_iops_read_write", null)
+      disk_mbps_read_write      = lookup(data_disk, "disk_mbps_read_write", null)
+      write_accelerator_enabled = lookup(data_disk, "write_accelerator_enabled", false)
+    }
+  }
+
 
   dynamic "automatic_os_upgrade_policy" {
     for_each = var.upgrade_mode != "Manual" ? ["fake"] : []
@@ -106,6 +129,13 @@ resource "azurerm_linux_virtual_machine_scale_set" "linux-vmss" {
       protected_settings         = lookup(extension.value, "protected_settings", null)
       provision_after_extensions = lookup(extension.value, "provision_after_extensions", [])
       settings                   = lookup(extension.value, "settings", null)
+    }
+  }
+
+  dynamic "additional_capabilities" {
+    for_each = var.ultra_ssd_enabled ? ["fake"] : []
+    content {
+      ultra_ssd_enabled = var.ultra_ssd_enabled
     }
   }
 

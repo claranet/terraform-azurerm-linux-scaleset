@@ -93,28 +93,40 @@ variable "vms_sku" {
   type        = string
 }
 
-#variable "vm_name_prefix" {
-#  description = "Custom name for the Virtual Machine in a scale set. Should be suffixed by \"-vm\". Generated if not set."
-#  type        = string
-#  default     = null
-#}
-
-variable "storage_profile_os_disk_managed_disk_type" {
+variable "os_disk_managed_disk_type" {
   description = "Specifies the type of managed disk to create [Possible values : Standard_LRS, StandardSSD_LRS or Premium_LRS]"
   type        = string
   default     = "Standard_LRS"
 }
 
-variable "storage_profile_os_disk_caching" {
+variable "os_disk_caching" {
   description = "Specifies the caching requirements [Possible values : None, ReadOnly, ReadWrite]"
   type        = string
   default     = "None"
 }
 
-variable "storage_profile_os_disk_size_gb" {
+variable "os_disk_size_gb" {
   description = "Size of the OS disk in GB"
   type        = number
   default     = 32
+}
+
+variable "os_disk_is_local" {
+  description = "Specifies the Ephemeral Disk Settings for the OS Disk to Local"
+  type        = bool
+  default     = false
+}
+
+variable "os_disk_encryption_set_id" {
+  description = "The ID of the Disk Encryption Set which should be used to encrypt this Data Disk"
+  type        = string
+  default     = null
+}
+
+variable "os_disk_write_accelerator_enabled" {
+  description = "hould Write Accelerator be enabled for this Data Disk?"
+  type        = bool
+  default     = false
 }
 
 variable "automatic_os_upgrade" {
@@ -154,7 +166,7 @@ variable "automatic_instance_repair" {
 variable "health_probe_id" {
   description = "Specifies the identifier for the load balancer health probe. Required when using Rolling as your upgrade_policy_mode."
   type        = string
-  default     = ""
+  default     = null
 }
 
 variable "boot_diagnostics_storage_uri" {
@@ -181,10 +193,16 @@ variable "priority" {
   default     = "Regular"
 }
 
-variable "storage_profile_data_disk" {
+variable "data_disks" {
   description = "A storage profile data disk"
   type        = list(string)
   default     = []
+}
+
+variable "ultra_ssd_enabled" {
+  description = "Should the capacity to enable Data Disks of the UltraSSD_LRS storage account type be supported on this Virtual Machine Scale Set?"
+  type        = bool
+  default     = false
 }
 
 variable "extra_tags" {
