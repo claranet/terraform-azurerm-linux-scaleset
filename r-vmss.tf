@@ -1,5 +1,4 @@
 resource "azurerm_linux_virtual_machine_scale_set" "linux-vmss" {
-  count               = lower(var.os_type) == "linux" ? 1 : 0
   instances           = var.instances_count
   location            = var.location
   name                = local.vmss_name

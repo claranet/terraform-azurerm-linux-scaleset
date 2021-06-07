@@ -298,12 +298,6 @@ variable "zones_list" {
   default     = [1, 2, 3]
 }
 
-variable "os_type" {
-  description = "OS type used with VMSS (linux or windows)"
-  type        = string
-  default     = "linux"
-}
-
 variable "identity" {
   description = "Map with identity block informations as described here https://www.terraform.io/docs/providers/azurerm/r/linux_virtual_machine_scale_set.html#identity"
   type = object({
