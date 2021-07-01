@@ -38,8 +38,12 @@ resource "azurerm_linux_virtual_machine_scale_set" "linux-vmss" {
   source_image_id = var.source_image_id
 
   network_interface {
-    name    = local.nic_name
-    primary = true
+    name                          = local.nic_name
+    primary                       = true
+    dns_servers                   = var.dns_servers
+    enable_ip_forwarding          = var.ip_forwarding
+    enable_accelerated_networking = var.accelerated_networking
+    network_security_group_id     = var.network_security_group_id
 
     ip_configuration {
       name                                         = local.ipconfig_name
@@ -48,6 +52,7 @@ resource "azurerm_linux_virtual_machine_scale_set" "linux-vmss" {
       application_gateway_backend_address_pool_ids = var.application_gateway_backend_address_pool_ids
       load_balancer_backend_address_pool_ids       = var.load_balancer_backend_address_pool_ids
       load_balancer_inbound_nat_rules_ids          = var.load_balancer_inbound_nat_rules_ids
+      application_security_group_ids               = var.application_security_group_ids
     }
   }
 

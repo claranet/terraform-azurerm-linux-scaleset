@@ -36,11 +36,11 @@ variable "ssh_public_key" {
 
 variable "accelerated_networking" {
   description = "Specifies whether to enable accelerated networking or not"
-  type        = string
-  default     = "false"
+  type        = bool
+  default     = false
 }
 
-variable "dns_settings" {
+variable "dns_servers" {
   description = "Specifies an array of dns servers"
   type        = list(string)
   default     = []
@@ -48,12 +48,12 @@ variable "dns_settings" {
 
 variable "ip_forwarding" {
   description = "Whether IP forwarding is enabled on this NIC"
-  type        = string
-  default     = "false"
+  type        = bool
+  default     = false
 }
 
 variable "network_security_group_id" {
-  description = "Specifies the identifier for the network security group"
+  description = "Specifies the id for the network security group"
   type        = string
   default     = ""
 }
@@ -83,12 +83,6 @@ variable "load_balancer_inbound_nat_rules_ids" {
 
 variable "application_security_group_ids" {
   description = "Specifies up to 20 application security group IDs"
-  type        = list(string)
-  default     = []
-}
-
-variable "public_ip_address_configuration" {
-  description = "Describes a virtual machines scale set IP Configuration's PublicIPAddress configuration"
   type        = list(string)
   default     = []
 }
@@ -184,18 +178,6 @@ variable "extensions" {
   description = "Can be specified to add extension profiles to the scale set"
   type        = map(any)
   default     = {}
-}
-
-variable "eviction_policy" {
-  description = "Specifies the eviction policy for Virtual Machines in this Scale Set, eviction_policy can only be set when priority is set to Low [Possible values : Deallocate and Delete]"
-  type        = string
-  default     = "Deallocate"
-}
-
-variable "priority" {
-  description = "Specifies the priority for the Virtual Machines in the Scale Set. [Possible values : Low and Regular]"
-  type        = string
-  default     = "Regular"
 }
 
 variable "data_disks" {
