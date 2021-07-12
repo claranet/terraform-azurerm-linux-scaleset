@@ -116,6 +116,7 @@ resource "azurerm_linux_virtual_machine_scale_set" "linux-vmss" {
   }
 
   scale_in_policy = var.scale_in_policy
+  overprovision   = var.overprovision
 
   lifecycle {
     ignore_changes = [instances]

@@ -262,6 +262,12 @@ variable "scale_in_policy" {
   default     = "Default"
 }
 
+variable "overprovision" {
+  description = "Should Azure over-provision Virtual Machines in this Scale Set? This means that multiple Virtual Machines will be provisioned and Azure will keep the instances which become available first - which improves provisioning success rates and improves deployment time."
+  type        = bool
+  default     = true
+}
+
 variable "upgrade_mode" {
   description = "Specifies how Upgrades (e.g. changing the Image/SKU) should be performed to Virtual Machine Instances. Possible values are Automatic, Manual and Rolling. Defaults to Manual."
   type        = string
