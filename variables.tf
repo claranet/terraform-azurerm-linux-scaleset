@@ -123,7 +123,7 @@ variable "os_disk_encryption_set_id" {
 }
 
 variable "os_disk_write_accelerator_enabled" {
-  description = "hould Write Accelerator be enabled for this Data Disk?"
+  description = "True to enable Write Accelerator for this Data Disk"
   type        = bool
   default     = false
 }
@@ -182,7 +182,7 @@ variable "extensions" {
 
 variable "data_disks" {
   description = "A storage profile data disk"
-  type        = list(string)
+  type        = list(any)
   default     = []
 }
 
