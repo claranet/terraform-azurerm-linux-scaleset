@@ -1,4 +1,4 @@
-resource "azurerm_linux_virtual_machine_scale_set" "linux-vmss" {
+resource "azurerm_linux_virtual_machine_scale_set" "linux_vmss" {
   instances           = var.instances_count
   location            = var.location
   name                = local.vmss_name
