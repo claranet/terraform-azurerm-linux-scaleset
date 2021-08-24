@@ -38,11 +38,22 @@ module "rg" {
 }
 ```
 
+<!-- BEGIN_TF_DOCS -->
 ## Providers
 
-| Name    | Version   |
-| ------- | --------- |
+| Name | Version |
+|------|---------|
 | azurerm | >= 2.37.0 |
+
+## Modules
+
+No modules.
+
+## Resources
+
+| Name | Type |
+|------|------|
+| [azurerm_linux_virtual_machine_scale_set.linux_vmss](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/linux_virtual_machine_scale_set) | resource |
 
 ## Inputs
 
@@ -61,7 +72,7 @@ module "rg" {
 | custom\_ipconfig\_name | Custom name for Ipconfiguration | `string` | `null` | no |
 | custom\_nic\_name | Custom name for Network Interfaces | `string` | `null` | no |
 | custom\_vmss\_name | Custom name for the Virtual Machine ScaleSet | `string` | `null` | no |
-| data\_disks | A storage profile data disk | `list(string)` | `[]` | no |
+| data\_disks | A storage profile data disk | `list(any)` | `[]` | no |
 | disable\_automatic\_rollback | Disable automatic rollback in case of failured | `bool` | `false` | no |
 | dns\_servers | Specifies an array of dns servers | `list(string)` | `[]` | no |
 | environment | Project environment | `string` | n/a | yes |
@@ -81,7 +92,7 @@ module "rg" {
 | os\_disk\_is\_local | Specifies the Ephemeral Disk Settings for the OS Disk to Local | `bool` | `false` | no |
 | os\_disk\_managed\_disk\_type | Specifies the type of managed disk to create [Possible values : Standard\_LRS, StandardSSD\_LRS or Premium\_LRS] | `string` | `"Standard_LRS"` | no |
 | os\_disk\_size\_gb | Size of the OS disk in GB | `number` | `32` | no |
-| os\_disk\_write\_accelerator\_enabled | hould Write Accelerator be enabled for this Data Disk? | `bool` | `false` | no |
+| os\_disk\_write\_accelerator\_enabled | True to enable Write Accelerator for this Data Disk | `bool` | `false` | no |
 | overprovision | Should Azure over-provision Virtual Machines in this Scale Set? This means that multiple Virtual Machines will be provisioned and Azure will keep the instances which become available first - which improves provisioning success rates and improves deployment time. | `bool` | `true` | no |
 | resource\_group\_name | Name of the resource group | `string` | n/a | yes |
 | rolling\_upgrade\_policy | This is only applicable when the upgrade\_policy\_mode is Rolling. | <pre>object({<br>    max_batch_instance_percent              = number<br>    max_unhealthy_instance_percent          = number<br>    max_unhealthy_upgraded_instance_percent = number<br>    pause_time_between_batches              = string<br>  })</pre> | <pre>{<br>  "max_batch_instance_percent": 25,<br>  "max_unhealthy_instance_percent": 25,<br>  "max_unhealthy_upgraded_instance_percent": 25,<br>  "pause_time_between_batches": "PT30S"<br>}</pre> | no |
@@ -104,6 +115,7 @@ module "rg" {
 | scale\_set\_id | Scale Set ID |
 | scale\_set\_name | Scale Set Name |
 | system\_assigned\_identity | Identity block with principal ID |
+<!-- END_TF_DOCS -->
 
 ## Related documentation
 
