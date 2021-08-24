@@ -87,7 +87,7 @@ resource "azurerm_linux_virtual_machine_scale_set" "linux-vmss" {
 
 
   dynamic "automatic_os_upgrade_policy" {
-    for_each = var.upgrade_mode != "Manual" ? ["fake"] : []
+    for_each = var.upgrade_mode == "Automatic" ? ["fake"] : []
     content {
       disable_automatic_rollback  = var.disable_automatic_rollback
       enable_automatic_os_upgrade = var.automatic_os_upgrade
