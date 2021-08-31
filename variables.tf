@@ -41,7 +41,7 @@ variable "accelerated_networking" {
 }
 
 variable "dns_servers" {
-  description = "Specifies an array of dns servers"
+  description = "Specifies an array of DNS servers"
   type        = list(string)
   default     = []
 }
@@ -213,6 +213,12 @@ variable "custom_vmss_name" {
   description = "Custom name for the Virtual Machine ScaleSet"
   type        = string
   default     = null
+}
+
+variable "name_prefix" {
+  description = "Optional prefix for the generated name"
+  type        = string
+  default     = ""
 }
 
 variable "instances_count" {

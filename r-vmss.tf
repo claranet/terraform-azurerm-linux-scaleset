@@ -71,13 +71,13 @@ resource "azurerm_linux_virtual_machine_scale_set" "linux_vmss" {
   }
 
   dynamic "data_disk" {
-    for_each = length(var.data_disks) != 0 ? var.data_disks : []
+    for_each = var.data_disks
     content {
       caching                   = data_disk.caching
       create_option             = data_disk.create_option
       disk_size_gb              = data_disk.disk_size_gb
       lun                       = data_disk.lun
-      storage_account_type      = data.storage_account_type
+      storage_account_type      = data_disk.storage_account_type
       disk_encryption_set_id    = lookup(data_disk, "disk_encryption_set_id", null)
       disk_iops_read_write      = lookup(data_disk, "disk_iops_read_write", null)
       disk_mbps_read_write      = lookup(data_disk, "disk_mbps_read_write", null)

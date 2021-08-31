@@ -7,7 +7,7 @@ Azure terraform module to create an [Azure Linux ScaleSet](https://azure.microso
 
 | Module version | Terraform version | AzureRM version |
 | -------------- | ----------------- | --------------- |
-| >= 5.x.x       | 0.15.x, 1.0.x     | >= 2.37         |
+| >= 5.x.x       | 0.15.x & 1.0.x    | >= 2.37         |
 | >= 4.x.x       | 0.13.x            | >= 2.0          |
 | >= 3.x.x       | 0.12.x            | >= 2.0          |
 | >= 2.x.x       | 0.12.x            | < 2.0           |
@@ -35,6 +35,64 @@ module "rg" {
   client_name = var.client_name
   environment = var.environment
   stack       = var.stack
+}
+
+module "vnet" {
+  source  = "claranet/vnet/azurerm"
+  version = "x.x.x"
+
+  environment      = var.environment
+  location         = module.azure-region.location
+  location_short   = module.azure-region.location_short
+  client_name      = var.client_name
+  stack            = var.stack
+
+  resource_group_name = module.rg.resource_group_name
+  vnet_cidr           = "10.0.1.0/24"
+}
+
+
+module "subnet" {
+  source  = "claranet/subnet/azurerm"
+  version = "x.x.x"
+
+  environment         = var.environment
+  location_short      = module.azure-region.location_short
+  client_name         = var.client_name
+  stack               = var.stack
+
+  resource_group_name  = module.rg.resource_group_name
+  virtual_network_name = module.vnet.vnet_name
+  subnet_cidr_list     = "10.0.1.0/26"
+}
+
+
+module "linux-scaleset" {
+  source  = "claranet/linux-scaleset/azurerm"
+  version = "x.x.x"
+
+  client_name         = var.client_name
+  environment         = var.environment
+  stack               = var.stack
+  location            = module.azure-region.location
+  location_short      = module.azure-region.location_short
+  resource_group_name = module.rg.resource_group_name
+
+  admin_username = "admin"
+  ssh_public_key = <<EOT
+${local.ssh_public_key}
+EOT
+
+  vms_sku = "Standard_B2s"
+
+  subnet_id = module.subnet.subnet_id
+
+  source_image_reference = {
+    publisher = "Debian"
+    offer     = "debian-10"
+    sku       = "10"
+    version   = "latest"
+  }
 }
 ```
 
@@ -74,7 +132,7 @@ No modules.
 | custom\_vmss\_name | Custom name for the Virtual Machine ScaleSet | `string` | `null` | no |
 | data\_disks | A storage profile data disk | `list(any)` | `[]` | no |
 | disable\_automatic\_rollback | Disable automatic rollback in case of failured | `bool` | `false` | no |
-| dns\_servers | Specifies an array of dns servers | `list(string)` | `[]` | no |
+| dns\_servers | Specifies an array of DNS servers | `list(string)` | `[]` | no |
 | environment | Project environment | `string` | n/a | yes |
 | extensions | Can be specified to add extension profiles to the scale set | `map(any)` | `{}` | no |
 | extra\_tags | Additional tags to associate with your network security group. | `map(string)` | `{}` | no |
@@ -86,6 +144,7 @@ No modules.
 | load\_balancer\_inbound\_nat\_rules\_ids | Specifies an array of references to inbound NAT rules for load balancers | `list(string)` | `[]` | no |
 | location | Azure region to use | `string` | n/a | yes |
 | location\_short | Short string for Azure location | `string` | n/a | yes |
+| name\_prefix | Optional prefix for the generated name | `string` | `""` | no |
 | network\_security\_group\_id | Specifies the id for the network security group | `string` | `""` | no |
 | os\_disk\_caching | Specifies the caching requirements [Possible values : None, ReadOnly, ReadWrite] | `string` | `"None"` | no |
 | os\_disk\_encryption\_set\_id | The ID of the Disk Encryption Set which should be used to encrypt this Data Disk | `string` | `null` | no |
@@ -116,8 +175,6 @@ No modules.
 | scale\_set\_name | Scale Set Name |
 | system\_assigned\_identity | Identity block with principal ID |
 <!-- END_TF_DOCS -->
-
 ## Related documentation
 
-- Terraform Azure Linux ScaleSet: [registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/linux_virtual_machine_scale_set](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/linux_virtual_machine_scale_set)
 - Microsoft Azure documentation: [docs.microsoft.com/en-us/azure/virtual-machine-scale-sets/](https://docs.microsoft.com/en-us/azure/virtual-machine-scale-sets/) 
