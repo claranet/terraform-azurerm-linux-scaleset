@@ -193,7 +193,7 @@ variable "ultra_ssd_enabled" {
 }
 
 variable "extra_tags" {
-  description = "Additional tags to associate with your network security group."
+  description = "Additional tags to associate with your scale set."
   type        = map(string)
   default     = {}
 }

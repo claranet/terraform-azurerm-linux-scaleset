@@ -135,7 +135,7 @@ No modules.
 | dns\_servers | Specifies an array of DNS servers | `list(string)` | `[]` | no |
 | environment | Project environment | `string` | n/a | yes |
 | extensions | Can be specified to add extension profiles to the scale set | `map(any)` | `{}` | no |
-| extra\_tags | Additional tags to associate with your network security group. | `map(string)` | `{}` | no |
+| extra\_tags | Additional tags to associate with your scale set. | `map(string)` | `{}` | no |
 | health\_probe\_id | Specifies the identifier for the load balancer health probe. Required when using Rolling as your upgrade\_policy\_mode. | `string` | `null` | no |
 | identity | Map with identity block informations as described here https://www.terraform.io/docs/providers/azurerm/r/linux_virtual_machine_scale_set.html#identity | <pre>object({<br>    type         = string<br>    identity_ids = list(string)<br>  })</pre> | `null` | no |
 | instances\_count | Specify the number of instances to run | `number` | `1` | no |
