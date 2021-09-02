@@ -78,7 +78,7 @@ module "linux-scaleset" {
   location_short      = module.azure-region.location_short
   resource_group_name = module.rg.resource_group_name
 
-  admin_username = "admin"
+  admin_username = "myusername"
   ssh_public_key = <<EOT
 ${local.ssh_public_key}
 EOT
