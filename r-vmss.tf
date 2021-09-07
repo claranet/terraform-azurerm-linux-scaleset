@@ -1,12 +1,10 @@
-resource "azurerm_linux_virtual_machine_scale_set" "linux-vmss" {
-  count               = lower(var.os_type) == "linux" ? 1 : 0
+resource "azurerm_linux_virtual_machine_scale_set" "linux_vmss" {
   instances           = var.instances_count
   location            = var.location
   name                = local.vmss_name
   resource_group_name = var.resource_group_name
   sku                 = var.vms_sku
 
-  # computer_name_prefix = var.vm_name_prefix
   admin_username                  = var.admin_username
   admin_password                  = var.admin_password
   disable_password_authentication = var.admin_password != null ? false : true
@@ -40,8 +38,12 @@ resource "azurerm_linux_virtual_machine_scale_set" "linux-vmss" {
   source_image_id = var.source_image_id
 
   network_interface {
-    name    = local.nic_name
-    primary = true
+    name                          = local.nic_name
+    primary                       = true
+    dns_servers                   = var.dns_servers
+    enable_ip_forwarding          = var.ip_forwarding
+    enable_accelerated_networking = var.accelerated_networking
+    network_security_group_id     = var.network_security_group_id
 
     ip_configuration {
       name                                         = local.ipconfig_name
@@ -50,17 +52,42 @@ resource "azurerm_linux_virtual_machine_scale_set" "linux-vmss" {
       application_gateway_backend_address_pool_ids = var.application_gateway_backend_address_pool_ids
       load_balancer_backend_address_pool_ids       = var.load_balancer_backend_address_pool_ids
       load_balancer_inbound_nat_rules_ids          = var.load_balancer_inbound_nat_rules_ids
+      application_security_group_ids               = var.application_security_group_ids
     }
   }
 
   os_disk {
-    caching              = var.storage_profile_os_disk_caching
-    storage_account_type = var.storage_profile_os_disk_managed_disk_type
-    disk_size_gb         = var.storage_profile_os_disk_size_gb
+    caching              = var.os_disk_caching
+    storage_account_type = var.os_disk_managed_disk_type
+    dynamic "diff_disk_settings" {
+      for_each = var.os_disk_is_local ? ["fake"] : []
+      content {
+        option = "Local"
+      }
+    }
+    disk_encryption_set_id    = var.os_disk_encryption_set_id
+    disk_size_gb              = var.os_disk_size_gb
+    write_accelerator_enabled = var.os_disk_write_accelerator_enabled
   }
 
+  dynamic "data_disk" {
+    for_each = var.data_disks
+    content {
+      caching                   = data_disk.caching
+      create_option             = data_disk.create_option
+      disk_size_gb              = data_disk.disk_size_gb
+      lun                       = data_disk.lun
+      storage_account_type      = data_disk.storage_account_type
+      disk_encryption_set_id    = lookup(data_disk, "disk_encryption_set_id", null)
+      disk_iops_read_write      = lookup(data_disk, "disk_iops_read_write", null)
+      disk_mbps_read_write      = lookup(data_disk, "disk_mbps_read_write", null)
+      write_accelerator_enabled = lookup(data_disk, "write_accelerator_enabled", false)
+    }
+  }
+
+
   dynamic "automatic_os_upgrade_policy" {
-    for_each = var.upgrade_mode != "Manual" ? ["fake"] : []
+    for_each = var.upgrade_mode == "Automatic" ? ["fake"] : []
     content {
       disable_automatic_rollback  = var.disable_automatic_rollback
       enable_automatic_os_upgrade = var.automatic_os_upgrade
@@ -89,6 +116,7 @@ resource "azurerm_linux_virtual_machine_scale_set" "linux-vmss" {
   }
 
   scale_in_policy = var.scale_in_policy
+  overprovision   = var.overprovision
 
   lifecycle {
     ignore_changes = [instances]
@@ -106,6 +134,13 @@ resource "azurerm_linux_virtual_machine_scale_set" "linux-vmss" {
       protected_settings         = lookup(extension.value, "protected_settings", null)
       provision_after_extensions = lookup(extension.value, "provision_after_extensions", [])
       settings                   = lookup(extension.value, "settings", null)
+    }
+  }
+
+  dynamic "additional_capabilities" {
+    for_each = var.ultra_ssd_enabled ? ["fake"] : []
+    content {
+      ultra_ssd_enabled = var.ultra_ssd_enabled
     }
   }
 

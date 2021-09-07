@@ -1,21 +1,26 @@
 variable "resource_group_name" {
   description = "Name of the resource group"
+  type        = string
 }
 
 variable "location" {
   description = "Azure region to use"
+  type        = string
 }
 
 variable "location_short" {
   description = "Short string for Azure location"
+  type        = string
 }
 
 variable "environment" {
   description = "Project environment"
+  type        = string
 }
 
 variable "stack" {
   description = "Project stack name"
+  type        = string
 }
 
 variable "client_name" {
@@ -31,24 +36,24 @@ variable "ssh_public_key" {
 
 variable "accelerated_networking" {
   description = "Specifies whether to enable accelerated networking or not"
-  type        = string
-  default     = "false"
+  type        = bool
+  default     = false
 }
 
-variable "dns_settings" {
-  description = "Specifies an array of dns servers"
+variable "dns_servers" {
+  description = "Specifies an array of DNS servers"
   type        = list(string)
   default     = []
 }
 
 variable "ip_forwarding" {
   description = "Whether IP forwarding is enabled on this NIC"
-  type        = string
-  default     = "false"
+  type        = bool
+  default     = false
 }
 
 variable "network_security_group_id" {
-  description = "Specifies the identifier for the network security group"
+  description = "Specifies the id for the network security group"
   type        = string
   default     = ""
 }
@@ -82,39 +87,45 @@ variable "application_security_group_ids" {
   default     = []
 }
 
-variable "public_ip_address_configuration" {
-  description = "Describes a virtual machines scale set IP Configuration's PublicIPAddress configuration"
-  type        = list(string)
-  default     = []
-}
-
 variable "vms_sku" {
   description = "Specifies the size of virtual machines in a scale set"
   type        = string
 }
 
-#variable "vm_name_prefix" {
-#  description = "Custom name for the Virtual Machine in a scale set. Should be suffixed by \"-vm\". Generated if not set."
-#  type        = string
-#  default     = null
-#}
-
-variable "storage_profile_os_disk_managed_disk_type" {
+variable "os_disk_managed_disk_type" {
   description = "Specifies the type of managed disk to create [Possible values : Standard_LRS, StandardSSD_LRS or Premium_LRS]"
   type        = string
   default     = "Standard_LRS"
 }
 
-variable "storage_profile_os_disk_caching" {
+variable "os_disk_caching" {
   description = "Specifies the caching requirements [Possible values : None, ReadOnly, ReadWrite]"
   type        = string
   default     = "None"
 }
 
-variable "storage_profile_os_disk_size_gb" {
+variable "os_disk_size_gb" {
   description = "Size of the OS disk in GB"
   type        = number
   default     = 32
+}
+
+variable "os_disk_is_local" {
+  description = "Specifies the Ephemeral Disk Settings for the OS Disk to Local"
+  type        = bool
+  default     = false
+}
+
+variable "os_disk_encryption_set_id" {
+  description = "The ID of the Disk Encryption Set which should be used to encrypt this Data Disk"
+  type        = string
+  default     = null
+}
+
+variable "os_disk_write_accelerator_enabled" {
+  description = "True to enable Write Accelerator for this Data Disk"
+  type        = bool
+  default     = false
 }
 
 variable "automatic_os_upgrade" {
@@ -154,7 +165,7 @@ variable "automatic_instance_repair" {
 variable "health_probe_id" {
   description = "Specifies the identifier for the load balancer health probe. Required when using Rolling as your upgrade_policy_mode."
   type        = string
-  default     = ""
+  default     = null
 }
 
 variable "boot_diagnostics_storage_uri" {
@@ -169,26 +180,20 @@ variable "extensions" {
   default     = {}
 }
 
-variable "eviction_policy" {
-  description = "Specifies the eviction policy for Virtual Machines in this Scale Set, eviction_policy can only be set when priority is set to Low [Possible values : Deallocate and Delete]"
-  type        = string
-  default     = "Deallocate"
-}
-
-variable "priority" {
-  description = "Specifies the priority for the Virtual Machines in the Scale Set. [Possible values : Low and Regular]"
-  type        = string
-  default     = "Regular"
-}
-
-variable "storage_profile_data_disk" {
+variable "data_disks" {
   description = "A storage profile data disk"
-  type        = list(string)
+  type        = list(any)
   default     = []
 }
 
+variable "ultra_ssd_enabled" {
+  description = "Should the capacity to enable Data Disks of the UltraSSD_LRS storage account type be supported on this Virtual Machine Scale Set?"
+  type        = bool
+  default     = false
+}
+
 variable "extra_tags" {
-  description = "Additional tags to associate with your network security group."
+  description = "Additional tags to associate with your scale set."
   type        = map(string)
   default     = {}
 }
@@ -208,6 +213,12 @@ variable "custom_vmss_name" {
   description = "Custom name for the Virtual Machine ScaleSet"
   type        = string
   default     = null
+}
+
+variable "name_prefix" {
+  description = "Optional prefix for the generated name"
+  type        = string
+  default     = ""
 }
 
 variable "instances_count" {
@@ -257,6 +268,12 @@ variable "scale_in_policy" {
   default     = "Default"
 }
 
+variable "overprovision" {
+  description = "Should Azure over-provision Virtual Machines in this Scale Set? This means that multiple Virtual Machines will be provisioned and Azure will keep the instances which become available first - which improves provisioning success rates and improves deployment time."
+  type        = bool
+  default     = true
+}
+
 variable "upgrade_mode" {
   description = "Specifies how Upgrades (e.g. changing the Image/SKU) should be performed to Virtual Machine Instances. Possible values are Automatic, Manual and Rolling. Defaults to Manual."
   type        = string
@@ -273,12 +290,6 @@ variable "zones_list" {
   description = "A list of Availability Zones in which the Virtual Machines in this Scale Set should be created in. Changing this forces a new resource to be created."
   type        = list(number)
   default     = [1, 2, 3]
-}
-
-variable "os_type" {
-  description = "OS type used with VMSS (linux or windows)"
-  type        = string
-  default     = "linux"
 }
 
 variable "identity" {
