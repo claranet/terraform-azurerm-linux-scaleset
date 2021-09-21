@@ -4,7 +4,7 @@
 Azure terraform module to create an [Azure Linux ScaleSet](https://azure.microsoft.com/en-us/services/virtual-machine-scale-sets/).
 
 <!-- BEGIN_TF_DOCS -->
-## Global versionning rule for Claranet Azure modules
+## Global versioning rule for Claranet Azure modules
 
 | Module version | Terraform version | AzureRM version |
 | -------------- | ----------------- | --------------- |
