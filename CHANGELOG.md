@@ -1,5 +1,8 @@
 # Unreleased
 
+Added
+  * AZ-302: Add Azure Monitor and Log analytics agents
+
 Changed
   * AZ-572: Revamp examples and improve CI
 
