@@ -1,4 +1,6 @@
 .terraform
-terraform.tfvars
-main.tf
 .terraform.lock.hcl
+main.tf
+terraform.tfvars
+!examples/**/main.tf
+!examples/**/terraform.tfvars
