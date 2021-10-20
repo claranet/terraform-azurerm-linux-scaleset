@@ -1,4 +1,4 @@
-# Unreleased
+# v4.1.0 - 2020-10-20
 
 Added
   * AZ-302: Add Azure Monitor and Log analytics agents
