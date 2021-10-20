@@ -68,6 +68,37 @@ module "subnet" {
 }
 
 
+module "logs" {
+  source  = "claranet/run-common/azurerm//modules/logs"
+  version = "x.x.x"
+
+  client_name    = var.client_name
+  location       = module.azure_region.location
+  location_short = module.azure_region.location_short
+  environment    = var.environment
+  stack          = var.stack
+
+  resource_group_name = module.rg.resource_group_name
+}
+
+module "az_monitor" {
+  source  = "claranet/run-iaas/azurerm//modules/vm-monitoring"
+  version = "x.x.x"
+
+  client_name    = var.client_name
+  location       = module.azure_region.location
+  location_short = module.azure_region.location_short
+  environment    = var.environment
+  stack          = var.stack
+
+  resource_group_name        = module.rg.resource_group_name
+  log_analytics_workspace_id = module.logs.log_analytics_workspace_id
+
+  extra_tags = {
+    foo = "bar"
+  }
+}
+
 module "linux_scaleset" {
   source  = "claranet/linux-scaleset/azurerm"
   version = "x.x.x"
@@ -93,6 +124,10 @@ module "linux_scaleset" {
     sku       = "10"
     version   = "latest"
   }
+
+  azure_monitor_data_collection_rule_id = module.az_monitor.data_collection_rule_id
+  log_analytics_workspace_guid          = module.logs.log_analytics_workspace_guid
+  log_analytics_workspace_key           = module.logs.log_analytics_workspace_primary_key
 }
 
 ```
@@ -102,6 +137,7 @@ module "linux_scaleset" {
 | Name | Version |
 |------|---------|
 | azurerm | >= 2.37.0 |
+| null | >= 3.0.0 |
 
 ## Modules
 
@@ -112,6 +148,10 @@ No modules.
 | Name | Type |
 |------|------|
 | [azurerm_linux_virtual_machine_scale_set.linux_vmss](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/linux_virtual_machine_scale_set) | resource |
+| [azurerm_virtual_machine_scale_set_extension.azure_monitor_agent](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/virtual_machine_scale_set_extension) | resource |
+| [azurerm_virtual_machine_scale_set_extension.log_extension](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/virtual_machine_scale_set_extension) | resource |
+| [null_resource.azure_monitor_link](https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource) | resource |
+| [azurerm_client_config.current](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/client_config) | data source |
 
 ## Inputs
 
@@ -124,6 +164,8 @@ No modules.
 | application\_security\_group\_ids | Specifies up to 20 application security group IDs | `list(string)` | `[]` | no |
 | automatic\_instance\_repair | Enable automatic instance repair. Must have health\_probe\_id or an Application Health Extension | `bool` | `false` | no |
 | automatic\_os\_upgrade | Automatic OS patches can be applied by Azure to your scaleset. This is particularly useful when upgrade\_policy\_mode is set to Rolling. | `bool` | `false` | no |
+| azure\_monitor\_agent\_version | Azure Monitor Agent extension version | `string` | `"1.12"` | no |
+| azure\_monitor\_data\_collection\_rule\_id | Data Collection Rule ID from Azure Monitor for metrics and logs collection | `string` | n/a | yes |
 | boot\_diagnostics\_storage\_uri | Blob endpoint for the storage account to hold the virtual machine's diagnostic files | `string` | `""` | no |
 | client\_name | Client name/account used in naming | `string` | n/a | yes |
 | custom\_data | The Base64-Encoded Custom Data which should be used for this Virtual Machine Scale Set. | `string` | `null` | no |
@@ -144,6 +186,10 @@ No modules.
 | load\_balancer\_inbound\_nat\_rules\_ids | Specifies an array of references to inbound NAT rules for load balancers | `list(string)` | `[]` | no |
 | location | Azure region to use | `string` | n/a | yes |
 | location\_short | Short string for Azure location | `string` | n/a | yes |
+| log\_analytics\_agent\_enabled | Deploy Log Analytics VM extension - depending of OS (cf. https://docs.microsoft.com/fr-fr/azure/azure-monitor/agents/agents-overview#linux) | `bool` | `true` | no |
+| log\_analytics\_agent\_version | Azure Log Analytics extension version | `string` | `"1.13"` | no |
+| log\_analytics\_workspace\_guid | GUID of the Log Analytics Workspace to link with | `string` | `null` | no |
+| log\_analytics\_workspace\_key | Access key of the Log Analytics Workspace to link with | `string` | `null` | no |
 | name\_prefix | Optional prefix for the generated name | `string` | `""` | no |
 | network\_security\_group\_id | Specifies the id for the network security group | `string` | `""` | no |
 | os\_disk\_caching | Specifies the caching requirements [Possible values : None, ReadOnly, ReadWrite] | `string` | `"None"` | no |
