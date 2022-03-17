@@ -192,12 +192,6 @@ variable "ultra_ssd_enabled" {
   default     = false
 }
 
-variable "extra_tags" {
-  description = "Additional tags to associate with your scale set."
-  type        = map(string)
-  default     = {}
-}
-
 variable "admin_username" {
   description = "Username to use as admin user"
   type        = string

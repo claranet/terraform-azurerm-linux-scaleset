@@ -177,6 +177,7 @@ No modules.
 | custom\_nic\_name | Custom name for Network Interfaces | `string` | `null` | no |
 | custom\_vmss\_name | Custom name for the Virtual Machine ScaleSet | `string` | `null` | no |
 | data\_disks | A storage profile data disk | `list(any)` | `[]` | no |
+| default\_tags\_enabled | Option to enable or disable default tags. | `bool` | `true` | no |
 | disable\_automatic\_rollback | Disable automatic rollback in case of failured | `bool` | `false` | no |
 | dns\_servers | Specifies an array of DNS servers | `list(string)` | `[]` | no |
 | environment | Project environment | `string` | n/a | yes |
