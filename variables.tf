@@ -192,12 +192,6 @@ variable "ultra_ssd_enabled" {
   default     = false
 }
 
-variable "extra_tags" {
-  description = "Additional tags to associate with your scale set."
-  type        = map(string)
-  default     = {}
-}
-
 variable "admin_username" {
   description = "Username to use as admin user"
   type        = string
@@ -207,18 +201,6 @@ variable "admin_password" {
   description = "Password for the administrator account of the virtual machine."
   type        = string
   default     = null
-}
-
-variable "custom_vmss_name" {
-  description = "Custom name for the Virtual Machine ScaleSet"
-  type        = string
-  default     = null
-}
-
-variable "name_prefix" {
-  description = "Optional prefix for the generated name"
-  type        = string
-  default     = ""
 }
 
 variable "instances_count" {
@@ -240,18 +222,6 @@ variable "source_image_reference" {
 
 variable "source_image_id" {
   description = "Id of the image to use."
-  type        = string
-  default     = null
-}
-
-variable "custom_nic_name" {
-  description = "Custom name for Network Interfaces"
-  type        = string
-  default     = null
-}
-
-variable "custom_ipconfig_name" {
-  description = "Custom name for Ipconfiguration"
   type        = string
   default     = null
 }
@@ -299,39 +269,4 @@ variable "identity" {
     identity_ids = list(string)
   })
   default = null
-}
-
-variable "log_analytics_workspace_guid" {
-  description = "GUID of the Log Analytics Workspace to link with"
-  type        = string
-  default     = null
-}
-
-variable "log_analytics_workspace_key" {
-  description = "Access key of the Log Analytics Workspace to link with"
-  type        = string
-  default     = null
-}
-
-variable "azure_monitor_data_collection_rule_id" {
-  description = "Data Collection Rule ID from Azure Monitor for metrics and logs collection"
-  type        = string
-}
-
-variable "azure_monitor_agent_version" {
-  description = "Azure Monitor Agent extension version"
-  type        = string
-  default     = "1.12"
-}
-
-variable "log_analytics_agent_enabled" {
-  description = "Deploy Log Analytics VM extension - depending of OS (cf. https://docs.microsoft.com/fr-fr/azure/azure-monitor/agents/agents-overview#linux)"
-  type        = bool
-  default     = true
-}
-
-variable "log_analytics_agent_version" {
-  description = "Azure Log Analytics extension version"
-  type        = string
-  default     = "1.13"
 }
