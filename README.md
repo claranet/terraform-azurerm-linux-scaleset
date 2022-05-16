@@ -137,7 +137,7 @@ module "linux_scaleset" {
 | Name | Version |
 |------|---------|
 | azurecaf | ~> 1.1 |
-| azurerm | >= 2.37.0 |
+| azurerm | ~> 3.0 |
 | null | >= 3.0.0 |
 
 ## Modules
