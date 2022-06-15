@@ -28,8 +28,14 @@ variable "client_name" {
   type        = string
 }
 
+variable "ssh_private_key" {
+  description = "Private SSH key deployed on Scale set"
+  type        = string
+  default     = null
+}
+
 variable "ssh_public_key" {
-  description = "Path to the public SSH key deployed on Scale set"
+  description = "Public SSH key deployed on Scale set"
   type        = string
   default     = null
 }

@@ -1,3 +1,11 @@
+# v6.0.1 - 2022-06-15
+
+Added
+ * AZ-770: Add module info and login info in output
+
+Fix
+ * Fix `ssh_public_key` variable description
+
 # v6.0.0 - 2022-05-16
 
 Breaking
