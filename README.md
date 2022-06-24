@@ -210,7 +210,8 @@ No modules.
 | scale\_in\_policy | The scale-in policy rule that decides which virtual machines are chosen for removal when a Virtual Machine Scale Set is scaled in. Possible values for the scale-in policy rules are Default, NewestVM and OldestVM, defaults to Default | `string` | `"Default"` | no |
 | source\_image\_id | Id of the image to use. | `string` | `null` | no |
 | source\_image\_reference | Source Image references | <pre>object({<br>    publisher = string<br>    offer     = string<br>    sku       = string<br>    version   = string<br>  })</pre> | `null` | no |
-| ssh\_public\_key | Path to the public SSH key deployed on Scale set | `string` | `null` | no |
+| ssh\_private\_key | Private SSH key deployed on Scale set | `string` | `null` | no |
+| ssh\_public\_key | Public SSH key deployed on Scale set | `string` | `null` | no |
 | stack | Project stack name | `string` | n/a | yes |
 | subnet\_id | Specifies the identifier of the subnet | `string` | n/a | yes |
 | ultra\_ssd\_enabled | Should the capacity to enable Data Disks of the UltraSSD\_LRS storage account type be supported on this Virtual Machine Scale Set? | `bool` | `false` | no |
@@ -224,9 +225,14 @@ No modules.
 
 | Name | Description |
 |------|-------------|
+| scale\_set\_admin\_password | Scale Set admin password |
+| scale\_set\_admin\_ssh\_private\_key | Scale Set admin SSH private key |
+| scale\_set\_admin\_ssh\_public\_key | Scale Set admin SSH public key |
+| scale\_set\_admin\_username | Scale Set admin username |
 | scale\_set\_id | Scale Set ID |
 | scale\_set\_name | Scale Set Name |
 | system\_assigned\_identity | Identity block with principal ID |
+| terraform\_module | Information about this Terraform module |
 <!-- END_TF_DOCS -->
 ## Related documentation
 
