@@ -9,8 +9,8 @@ resource "azurerm_virtual_machine_scale_set_extension" "azure_monitor_agent" {
   virtual_machine_scale_set_id = azurerm_linux_virtual_machine_scale_set.linux_vmss.id
 }
 
-resource "azurerm_data_collection_rule_association" "azure_monitor" {
-  name                    = "dcra-${azurerm_linux_virtual_machine_scale_set.linux_vmss.name}"
+resource "azurerm_monitor_data_collection_rule_association" "dcr" {
+  name                    = local.dcr_name
   target_resource_id      = azurerm_linux_virtual_machine_scale_set.linux_vmss.id
   data_collection_rule_id = var.azure_monitor_data_collection_rule_id
 }
