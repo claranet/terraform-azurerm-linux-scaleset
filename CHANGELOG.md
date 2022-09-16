@@ -1,4 +1,4 @@
-# Unreleased
+# v6.2.0 - 2022-09-16
 
 Changed
   * [GH-1](https://github.com/claranet/terraform-azurerm-linux-scaleset/pull/1): Use DCR association resource instead of az rest call
