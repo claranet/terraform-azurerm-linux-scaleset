@@ -1,7 +1,8 @@
 # Unreleased
 
 Changed
-  * GH-3: Use dcr association resource instead of az rest call
+  * [GH-1](https://github.com/claranet/terraform-azurerm-linux-scaleset/pull/1): Use DCR association resource instead of az rest call
+  * AZ-807: Minimum AzureRM provider set to `v3.22`
 
 # v6.1.0 - 2022-06-24
 
