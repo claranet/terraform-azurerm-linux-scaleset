@@ -117,8 +117,12 @@ resource "azurerm_linux_virtual_machine_scale_set" "linux_vmss" {
     }
   }
 
-  scale_in_policy = var.scale_in_policy
-  overprovision   = var.overprovision
+  overprovision = var.overprovision
+
+  scale_in {
+    rule                   = var.scale_in_policy
+    force_deletion_enabled = var.scale_in_force_deletion
+  }
 
   lifecycle {
     ignore_changes = [instances]

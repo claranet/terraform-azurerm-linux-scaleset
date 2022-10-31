@@ -271,6 +271,12 @@ variable "scale_in_policy" {
   default     = "Default"
 }
 
+variable "scale_in_force_deletion" {
+  description = "Whether the Virtual Machines chosen for removal should be force deleted when the Virtual Machine Scale Set is being scaled-in."
+  type        = bool
+  default     = false
+}
+
 variable "overprovision" {
   description = "Should Azure over-provision Virtual Machines in this Scale Set? This means that multiple Virtual Machines will be provisioned and Azure will keep the instances which become available first - which improves provisioning success rates and improves deployment time."
   type        = bool
