@@ -103,6 +103,7 @@ resource "azurerm_linux_virtual_machine_scale_set" "linux_vmss" {
   }
 
   custom_data     = var.custom_data
+  user_data       = var.user_data
   health_probe_id = var.health_probe_id
 
   dynamic "rolling_upgrade_policy" {

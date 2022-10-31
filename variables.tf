@@ -238,6 +238,12 @@ variable "custom_data" {
   default     = null
 }
 
+variable "user_data" {
+  description = "The Base64-Encoded User Data which should be used for this Virtual Machine Scale Set."
+  type        = string
+  default     = null
+}
+
 variable "scale_in_policy" {
   description = "The scale-in policy rule that decides which virtual machines are chosen for removal when a Virtual Machine Scale Set is scaled in. Possible values for the scale-in policy rules are Default, NewestVM and OldestVM, defaults to Default"
   type        = string
