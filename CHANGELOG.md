@@ -1,3 +1,13 @@
+# Unreleased
+
+Breaking
+  * AZ-840: Update to Terraform `1.3`
+  * AZ-890: Refactor some variables names
+
+Changed
+  * AZ-890: Use SSD disks by default
+  * AZ-890: Change some variables default value
+
 # v6.3.0 - 2022-11-04
 
 Added
