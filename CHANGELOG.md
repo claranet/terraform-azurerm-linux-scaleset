@@ -3,6 +3,7 @@
 Breaking
   * AZ-840: Update to Terraform `1.3`
   * AZ-890: Refactor some variables names
+  * AZ-890: Extensions as separated resources
 
 Changed
   * AZ-890: Use SSD disks by default

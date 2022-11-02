@@ -154,6 +154,7 @@ No modules.
 | [azurerm_linux_virtual_machine_scale_set.linux_vmss](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/linux_virtual_machine_scale_set) | resource |
 | [azurerm_monitor_data_collection_rule_association.dcr](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_data_collection_rule_association) | resource |
 | [azurerm_virtual_machine_scale_set_extension.azure_monitor_agent](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/virtual_machine_scale_set_extension) | resource |
+| [azurerm_virtual_machine_scale_set_extension.extension](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/virtual_machine_scale_set_extension) | resource |
 | [azurerm_virtual_machine_scale_set_extension.log_extension](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/virtual_machine_scale_set_extension) | resource |
 
 ## Inputs
@@ -181,7 +182,7 @@ No modules.
 | disable\_automatic\_rollback | Disable automatic rollback in case of failures. | `bool` | `false` | no |
 | dns\_servers | List of DNS servers. | `list(string)` | `[]` | no |
 | environment | Project environment. | `string` | n/a | yes |
-| extensions | Extension profiles to add to the Scale Set. | <pre>list(object({<br>    name                       = string<br>    publisher                  = string<br>    type                       = string<br>    type_handler_version       = string<br>    auto_upgrade_minor_version = optional(bool, true)<br>    force_update_tag           = optional(string, null)<br>    protected_settings         = optional(string, null)<br>    provision_after_extensions = optional(list(string), [])<br>    settings                   = optional(string, null)<br>  }))</pre> | `[]` | no |
+| extensions | Extensions to add to the Scale Set. | <pre>list(object({<br>    name                        = string<br>    publisher                   = string<br>    type                        = string<br>    type_handler_version        = string<br>    auto_upgrade_minor_version  = optional(bool, true)<br>    automatic_upgrade_enabled   = optional(bool, false)<br>    failure_suppression_enabled = optional(bool, false)<br>    force_update_tag            = optional(string, null)<br>    protected_settings          = optional(string, null)<br>    provision_after_extensions  = optional(list(string), [])<br>    settings                    = optional(string, null)<br>  }))</pre> | `[]` | no |
 | extra\_tags | Additional tags to associate with your scale set. | `map(string)` | `{}` | no |
 | health\_probe\_id | Specifies the identifier for the Load Balancer health probe. Required when using Rolling as your upgrade\_policy\_mode. | `string` | `null` | no |
 | identity | Identity block information as described here https://www.terraform.io/docs/providers/azurerm/r/linux_virtual_machine_scale_set.html#identity. | <pre>object({<br>    type         = string<br>    identity_ids = list(string)<br>  })</pre> | `null` | no |

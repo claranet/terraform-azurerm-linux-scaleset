@@ -187,17 +187,19 @@ variable "boot_diagnostics_storage_uri" {
 }
 
 variable "extensions" {
-  description = "Extension profiles to add to the Scale Set."
+  description = "Extensions to add to the Scale Set."
   type = list(object({
-    name                       = string
-    publisher                  = string
-    type                       = string
-    type_handler_version       = string
-    auto_upgrade_minor_version = optional(bool, true)
-    force_update_tag           = optional(string, null)
-    protected_settings         = optional(string, null)
-    provision_after_extensions = optional(list(string), [])
-    settings                   = optional(string, null)
+    name                        = string
+    publisher                   = string
+    type                        = string
+    type_handler_version        = string
+    auto_upgrade_minor_version  = optional(bool, true)
+    automatic_upgrade_enabled   = optional(bool, false)
+    failure_suppression_enabled = optional(bool, false)
+    force_update_tag            = optional(string, null)
+    protected_settings          = optional(string, null)
+    provision_after_extensions  = optional(list(string), [])
+    settings                    = optional(string, null)
   }))
   default = []
 }
