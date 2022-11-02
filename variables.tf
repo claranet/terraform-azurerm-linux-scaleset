@@ -122,6 +122,12 @@ variable "os_ephemeral_disk_enabled" {
   default     = true
 }
 
+variable "os_ephemeral_disk_placement" {
+  description = "Placement for the local ephemeral disk. Value can be `CacheDisk` or `ResourceDisk`. See https://learn.microsoft.com/en-us/azure/virtual-machines/ephemeral-os-disks."
+  type        = string
+  default     = "ResourceDisk"
+}
+
 variable "os_disk_encryption_set_id" {
   description = "ID of the Disk Encryption Set which should be used to encrypt the OS disk."
   type        = string

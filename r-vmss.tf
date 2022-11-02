@@ -57,12 +57,13 @@ resource "azurerm_linux_virtual_machine_scale_set" "linux_vmss" {
   }
 
   os_disk {
-    caching              = var.os_disk_caching
-    storage_account_type = var.os_disk_managed_disk_type
+    caching              = var.os_ephemeral_disk_enabled ? "ReadOnly" : var.os_disk_caching
+    storage_account_type = var.os_ephemeral_disk_enabled ? "Standard_LRS" : var.os_disk_managed_disk_type
     dynamic "diff_disk_settings" {
       for_each = var.os_ephemeral_disk_enabled ? ["fake"] : []
       content {
-        option = "Local"
+        option    = "Local"
+        placement = var.os_ephemeral_disk_placement
       }
     }
     disk_encryption_set_id    = var.os_disk_encryption_set_id
