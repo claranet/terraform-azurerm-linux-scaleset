@@ -103,6 +103,4 @@ module "linux_scaleset" {
   }
 
   azure_monitor_data_collection_rule_id = module.az_monitor.data_collection_rule_id
-  log_analytics_workspace_guid          = module.logs.log_analytics_workspace_guid
-  log_analytics_workspace_key           = module.logs.log_analytics_workspace_primary_key
 }

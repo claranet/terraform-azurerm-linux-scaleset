@@ -9,6 +9,7 @@ Changed
   * AZ-890: Use SSD disks by default
   * AZ-890: Use ephemeral storage for OS on temp disk by default 
   * AZ-890: Change some variables default value
+  * AZ-890: Remove Log Analytics agent
 
 # v6.3.0 - 2022-11-04
 

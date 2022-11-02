@@ -128,8 +128,6 @@ module "linux_scaleset" {
   }
 
   azure_monitor_data_collection_rule_id = module.az_monitor.data_collection_rule_id
-  log_analytics_workspace_guid          = module.logs.log_analytics_workspace_guid
-  log_analytics_workspace_key           = module.logs.log_analytics_workspace_primary_key
 }
 ```
 
@@ -155,7 +153,6 @@ No modules.
 | [azurerm_monitor_data_collection_rule_association.dcr](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_data_collection_rule_association) | resource |
 | [azurerm_virtual_machine_scale_set_extension.azure_monitor_agent](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/virtual_machine_scale_set_extension) | resource |
 | [azurerm_virtual_machine_scale_set_extension.extension](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/virtual_machine_scale_set_extension) | resource |
-| [azurerm_virtual_machine_scale_set_extension.log_extension](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/virtual_machine_scale_set_extension) | resource |
 
 ## Inputs
 
@@ -168,7 +165,7 @@ No modules.
 | application\_security\_group\_ids | IDs of Application Security Group IDs (up to 20). | `list(string)` | `[]` | no |
 | automatic\_instance\_repair | Whether to enable automatic instance repair. Must have health\_probe\_id or an Application Health Extension | `bool` | `false` | no |
 | automatic\_os\_upgrade | Whether if automatic OS patches can be applied by Azure to your Scale Set. This is particularly useful when upgrade\_policy\_mode is set to Rolling. | `bool` | `false` | no |
-| azure\_monitor\_agent\_version | Azure Monitor Agent extension version | `string` | `"1.12"` | no |
+| azure\_monitor\_agent\_version | Azure Monitor Agent extension version | `string` | `"1.22"` | no |
 | azure\_monitor\_data\_collection\_rule\_id | Data Collection Rule ID from Azure Monitor for metrics and logs collection | `string` | n/a | yes |
 | boot\_diagnostics\_storage\_uri | Blob endpoint for the Storage Account to hold the Virtual Machines diagnostic files. | `string` | `""` | no |
 | client\_name | Client name/account used in naming. | `string` | n/a | yes |
@@ -192,10 +189,6 @@ No modules.
 | load\_balancer\_inbound\_nat\_rules\_ids | List of references to inbound NAT rules for Load Balancers. | `list(string)` | `[]` | no |
 | location | Azure region to use. | `string` | n/a | yes |
 | location\_short | Short string for Azure location. | `string` | n/a | yes |
-| log\_analytics\_agent\_enabled | Deploy Log Analytics VM extension - depending of OS (cf. https://docs.microsoft.com/fr-fr/azure/azure-monitor/agents/agents-overview#linux) | `bool` | `true` | no |
-| log\_analytics\_agent\_version | Azure Log Analytics extension version | `string` | `"1.13"` | no |
-| log\_analytics\_workspace\_guid | GUID of the Log Analytics Workspace to link with | `string` | `null` | no |
-| log\_analytics\_workspace\_key | Access key of the Log Analytics Workspace to link with | `string` | `null` | no |
 | name\_prefix | Optional prefix for the generated name | `string` | `""` | no |
 | name\_suffix | Optional suffix for the generated name | `string` | `""` | no |
 | network\_security\_group\_id | ID of the Network Security Group. | `string` | `null` | no |
