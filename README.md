@@ -217,6 +217,7 @@ No modules.
 | ultra\_ssd\_enabled | Should the capacity to enable Data Disks of the UltraSSD\_LRS storage account type be supported on this Virtual Machine Scale Set? | `bool` | `false` | no |
 | upgrade\_mode | Specifies how Upgrades (e.g. changing the Image/SKU) should be performed to Virtual Machine Instances. Possible values are Automatic, Manual and Rolling. Defaults to Manual. | `string` | `"Manual"` | no |
 | use\_caf\_naming | Use the Azure CAF naming provider to generate default resource name. `custom_vmss_name` override this if set. Legacy default name is used if this is set to `false`. | `bool` | `true` | no |
+| user\_data | The Base64-Encoded User Data which should be used for this Virtual Machine Scale Set. | `string` | `null` | no |
 | vms\_sku | Specifies the size of virtual machines in a scale set | `string` | n/a | yes |
 | zone\_balance | Should the Virtual Machines in this Scale Set be strictly evenly distributed across Availability Zones? Changing this forces a new resource to be created. | `bool` | `true` | no |
 | zones\_list | A list of Availability Zones in which the Virtual Machines in this Scale Set should be created in. Changing this forces a new resource to be created. | `list(number)` | <pre>[<br>  1,<br>  2,<br>  3<br>]</pre> | no |
