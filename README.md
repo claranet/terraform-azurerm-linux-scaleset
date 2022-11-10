@@ -116,7 +116,7 @@ module "linux_scaleset" {
   admin_username = "myusername"
   ssh_public_key = var.ssh_public_key
 
-  vms_sku = "Standard_B2s"
+  vms_size = "Standard_B2s"
 
   subnet_id = module.subnet.subnet_id
 
@@ -128,8 +128,6 @@ module "linux_scaleset" {
   }
 
   azure_monitor_data_collection_rule_id = module.az_monitor.data_collection_rule_id
-  log_analytics_workspace_guid          = module.logs.log_analytics_workspace_guid
-  log_analytics_workspace_key           = module.logs.log_analytics_workspace_primary_key
 }
 ```
 
@@ -138,7 +136,7 @@ module "linux_scaleset" {
 | Name | Version |
 |------|---------|
 | azurecaf | ~> 1.1 |
-| azurerm | ~> 3.22 |
+| azurerm | ~> 3.24 |
 
 ## Modules
 
@@ -154,72 +152,70 @@ No modules.
 | [azurerm_linux_virtual_machine_scale_set.linux_vmss](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/linux_virtual_machine_scale_set) | resource |
 | [azurerm_monitor_data_collection_rule_association.dcr](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_data_collection_rule_association) | resource |
 | [azurerm_virtual_machine_scale_set_extension.azure_monitor_agent](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/virtual_machine_scale_set_extension) | resource |
-| [azurerm_virtual_machine_scale_set_extension.log_extension](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/virtual_machine_scale_set_extension) | resource |
+| [azurerm_virtual_machine_scale_set_extension.extension](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/virtual_machine_scale_set_extension) | resource |
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| accelerated\_networking | Specifies whether to enable accelerated networking or not | `bool` | `false` | no |
-| admin\_password | Password for the administrator account of the virtual machine. | `string` | `null` | no |
-| admin\_username | Username to use as admin user | `string` | n/a | yes |
-| application\_gateway\_backend\_address\_pool\_ids | Specifies an array of references to backend address pools of application gateways. A scale set can reference backend address pools of one application gateway | `list(string)` | `[]` | no |
-| application\_security\_group\_ids | Specifies up to 20 application security group IDs | `list(string)` | `[]` | no |
-| automatic\_instance\_repair | Enable automatic instance repair. Must have health\_probe\_id or an Application Health Extension | `bool` | `false` | no |
-| automatic\_os\_upgrade | Automatic OS patches can be applied by Azure to your scaleset. This is particularly useful when upgrade\_policy\_mode is set to Rolling. | `bool` | `false` | no |
-| azure\_monitor\_agent\_version | Azure Monitor Agent extension version | `string` | `"1.12"` | no |
+| accelerated\_networking | Whether to enable accelerated networking or not. | `bool` | `true` | no |
+| admin\_password | Password for the administrator account of the Virtual Machines. | `string` | `null` | no |
+| admin\_username | Username of the administrator account of the Virtual Machines. | `string` | n/a | yes |
+| application\_gateway\_backend\_address\_pool\_ids | List of references to backend address pools of Application Gateways. A Scale Set can reference backend address pools of one Application Gateway. | `list(string)` | `[]` | no |
+| application\_security\_group\_ids | IDs of Application Security Group IDs (up to 20). | `list(string)` | `[]` | no |
+| automatic\_instance\_repair | Whether to enable automatic instance repair. Must have health\_probe\_id or an Application Health Extension. | `bool` | `false` | no |
+| automatic\_os\_upgrade | Whether if automatic OS patches can be applied by Azure to your Scale Set. This is particularly useful when upgrade\_policy\_mode is set to Rolling. | `bool` | `false` | no |
+| azure\_monitor\_agent\_version | Azure Monitor Agent extension version | `string` | `"1.22"` | no |
 | azure\_monitor\_data\_collection\_rule\_id | Data Collection Rule ID from Azure Monitor for metrics and logs collection | `string` | n/a | yes |
-| boot\_diagnostics\_storage\_uri | Blob endpoint for the storage account to hold the virtual machine's diagnostic files | `string` | `""` | no |
-| client\_name | Client name/account used in naming | `string` | n/a | yes |
+| boot\_diagnostics\_storage\_uri | Blob endpoint for the Storage Account to hold the Virtual Machines diagnostic files. | `string` | `""` | no |
+| client\_name | Client name/account used in naming. | `string` | n/a | yes |
 | custom\_data | The Base64-Encoded Custom Data which should be used for this Virtual Machine Scale Set. | `string` | `null` | no |
 | custom\_dcr\_name | Custom name for Data collection rule association | `string` | `null` | no |
 | custom\_ipconfig\_name | Custom name for Ipconfiguration | `string` | `null` | no |
 | custom\_nic\_name | Custom name for Network Interfaces | `string` | `null` | no |
 | custom\_vmss\_name | Custom name for the Virtual Machine ScaleSet | `string` | `null` | no |
-| data\_disks | A storage profile data disk | `list(any)` | `[]` | no |
+| data\_disks | Data disks profiles to attach. | <pre>list(object({<br>    name                      = string<br>    lun                       = number<br>    disk_size_gb              = optional(number, null)<br>    create_option             = optional(string, "Empty")<br>    caching                   = optional(string, "None")<br>    storage_account_type      = optional(string, "StandardSSD_LRS")<br>    disk_encryption_set_id    = optional(string, null)<br>    disk_iops_read_write      = optional(string, null)<br>    disk_mbps_read_write      = optional(string, null)<br>    write_accelerator_enabled = optional(string, null)<br>  }))</pre> | `[]` | no |
 | default\_tags\_enabled | Option to enable or disable default tags. | `bool` | `true` | no |
-| disable\_automatic\_rollback | Disable automatic rollback in case of failured | `bool` | `false` | no |
-| dns\_servers | Specifies an array of DNS servers | `list(string)` | `[]` | no |
-| environment | Project environment | `string` | n/a | yes |
-| extensions | Can be specified to add extension profiles to the scale set | `map(any)` | `{}` | no |
+| disable\_automatic\_rollback | Disable automatic rollback in case of failures. | `bool` | `false` | no |
+| dns\_servers | List of DNS servers. | `list(string)` | `[]` | no |
+| environment | Project environment. | `string` | n/a | yes |
+| extensions | Extensions to add to the Scale Set. | <pre>list(object({<br>    name                        = string<br>    publisher                   = string<br>    type                        = string<br>    type_handler_version        = string<br>    auto_upgrade_minor_version  = optional(bool, true)<br>    automatic_upgrade_enabled   = optional(bool, false)<br>    failure_suppression_enabled = optional(bool, false)<br>    force_update_tag            = optional(string, null)<br>    protected_settings          = optional(string, null)<br>    provision_after_extensions  = optional(list(string), [])<br>    settings                    = optional(string, null)<br>  }))</pre> | `[]` | no |
 | extra\_tags | Additional tags to associate with your scale set. | `map(string)` | `{}` | no |
-| health\_probe\_id | Specifies the identifier for the load balancer health probe. Required when using Rolling as your upgrade\_policy\_mode. | `string` | `null` | no |
-| identity | Map with identity block informations as described here https://www.terraform.io/docs/providers/azurerm/r/linux_virtual_machine_scale_set.html#identity | <pre>object({<br>    type         = string<br>    identity_ids = list(string)<br>  })</pre> | `null` | no |
-| instances\_count | Specify the number of instances to run | `number` | `1` | no |
-| ip\_forwarding | Whether IP forwarding is enabled on this NIC | `bool` | `false` | no |
-| load\_balancer\_backend\_address\_pool\_ids | Specifies an array of references to backend address pools of load balancers. A scale set can reference backend address pools of one public and one internal load balancer | `list(string)` | `[]` | no |
-| load\_balancer\_inbound\_nat\_rules\_ids | Specifies an array of references to inbound NAT rules for load balancers | `list(string)` | `[]` | no |
-| location | Azure region to use | `string` | n/a | yes |
-| location\_short | Short string for Azure location | `string` | n/a | yes |
-| log\_analytics\_agent\_enabled | Deploy Log Analytics VM extension - depending of OS (cf. https://docs.microsoft.com/fr-fr/azure/azure-monitor/agents/agents-overview#linux) | `bool` | `true` | no |
-| log\_analytics\_agent\_version | Azure Log Analytics extension version | `string` | `"1.13"` | no |
-| log\_analytics\_workspace\_guid | GUID of the Log Analytics Workspace to link with | `string` | `null` | no |
-| log\_analytics\_workspace\_key | Access key of the Log Analytics Workspace to link with | `string` | `null` | no |
+| health\_probe\_id | Specifies the identifier for the Load Balancer health probe. Required when using Rolling as your upgrade\_policy\_mode. | `string` | `null` | no |
+| identity | Identity block information as described here https://www.terraform.io/docs/providers/azurerm/r/linux_virtual_machine_scale_set.html#identity. | <pre>object({<br>    type         = string<br>    identity_ids = list(string)<br>  })</pre> | `null` | no |
+| instances\_count | Number of instances in the Scale Set. | `number` | `2` | no |
+| ip\_forwarding\_enabled | Whether IP forwarding is enabled on this NIC. | `bool` | `false` | no |
+| load\_balancer\_backend\_address\_pool\_ids | List of references to backend address pools of Load Balancers. A Scale Set can reference backend address pools of one public and one internal Load Balancer. | `list(string)` | `[]` | no |
+| load\_balancer\_inbound\_nat\_rules\_ids | List of references to inbound NAT rules for Load Balancers. | `list(string)` | `[]` | no |
+| location | Azure region to use. | `string` | n/a | yes |
+| location\_short | Short string for Azure location. | `string` | n/a | yes |
 | name\_prefix | Optional prefix for the generated name | `string` | `""` | no |
 | name\_suffix | Optional suffix for the generated name | `string` | `""` | no |
-| network\_security\_group\_id | Specifies the id for the network security group | `string` | `""` | no |
-| os\_disk\_caching | Specifies the caching requirements [Possible values : None, ReadOnly, ReadWrite] | `string` | `"None"` | no |
-| os\_disk\_encryption\_set\_id | The ID of the Disk Encryption Set which should be used to encrypt this Data Disk | `string` | `null` | no |
-| os\_disk\_is\_local | Specifies the Ephemeral Disk Settings for the OS Disk to Local | `bool` | `false` | no |
-| os\_disk\_managed\_disk\_type | Specifies the type of managed disk to create [Possible values : Standard\_LRS, StandardSSD\_LRS or Premium\_LRS] | `string` | `"Standard_LRS"` | no |
-| os\_disk\_size\_gb | Size of the OS disk in GB | `number` | `32` | no |
-| os\_disk\_write\_accelerator\_enabled | True to enable Write Accelerator for this Data Disk | `bool` | `false` | no |
+| network\_security\_group\_id | ID of the Network Security Group. | `string` | `null` | no |
+| os\_disk\_caching | OS disk caching requirements [Possible values : None, ReadOnly, ReadWrite]. | `string` | `"None"` | no |
+| os\_disk\_encryption\_set\_id | ID of the Disk Encryption Set which should be used to encrypt the OS disk. | `string` | `null` | no |
+| os\_disk\_managed\_disk\_type | Type of managed disk to create [Possible values : Standard\_LRS, StandardSSD\_LRS or Premium\_LRS]. | `string` | `"StandardSSD_LRS"` | no |
+| os\_disk\_size\_gb | Size of the OS disk in GB. | `number` | `32` | no |
+| os\_disk\_write\_accelerator\_enabled | Whether to enable write accelerator for the OS disk. | `bool` | `false` | no |
+| os\_ephemeral\_disk\_enabled | Whether OS disk is local ephemeral disk. See https://learn.microsoft.com/en-us/azure/virtual-machines/ephemeral-os-disks. | `bool` | `true` | no |
+| os\_ephemeral\_disk\_placement | Placement for the local ephemeral disk. Value can be `CacheDisk` or `ResourceDisk`. See https://learn.microsoft.com/en-us/azure/virtual-machines/ephemeral-os-disks. | `string` | `"ResourceDisk"` | no |
 | overprovision | Should Azure over-provision Virtual Machines in this Scale Set? This means that multiple Virtual Machines will be provisioned and Azure will keep the instances which become available first - which improves provisioning success rates and improves deployment time. | `bool` | `true` | no |
-| resource\_group\_name | Name of the resource group | `string` | n/a | yes |
-| rolling\_upgrade\_policy | This is only applicable when the upgrade\_policy\_mode is Rolling. | <pre>object({<br>    max_batch_instance_percent              = number<br>    max_unhealthy_instance_percent          = number<br>    max_unhealthy_upgraded_instance_percent = number<br>    pause_time_between_batches              = string<br>  })</pre> | <pre>{<br>  "max_batch_instance_percent": 25,<br>  "max_unhealthy_instance_percent": 25,<br>  "max_unhealthy_upgraded_instance_percent": 25,<br>  "pause_time_between_batches": "PT30S"<br>}</pre> | no |
-| scale\_in\_policy | The scale-in policy rule that decides which virtual machines are chosen for removal when a Virtual Machine Scale Set is scaled in. Possible values for the scale-in policy rules are Default, NewestVM and OldestVM, defaults to Default | `string` | `"Default"` | no |
-| source\_image\_id | Id of the image to use. | `string` | `null` | no |
-| source\_image\_reference | Source Image references | <pre>object({<br>    publisher = string<br>    offer     = string<br>    sku       = string<br>    version   = string<br>  })</pre> | `null` | no |
-| ssh\_private\_key | Private SSH key deployed on Scale set | `string` | `null` | no |
-| ssh\_public\_key | Public SSH key deployed on Scale set | `string` | `null` | no |
-| stack | Project stack name | `string` | n/a | yes |
-| subnet\_id | Specifies the identifier of the subnet | `string` | n/a | yes |
-| ultra\_ssd\_enabled | Should the capacity to enable Data Disks of the UltraSSD\_LRS storage account type be supported on this Virtual Machine Scale Set? | `bool` | `false` | no |
+| resource\_group\_name | Name of the resource group. | `string` | n/a | yes |
+| rolling\_upgrade\_policy | Rolling upgrade policy, only applicable when the upgrade\_policy\_mode is Rolling. | <pre>object({<br>    max_batch_instance_percent              = number<br>    max_unhealthy_instance_percent          = number<br>    max_unhealthy_upgraded_instance_percent = number<br>    pause_time_between_batches              = string<br>  })</pre> | <pre>{<br>  "max_batch_instance_percent": 25,<br>  "max_unhealthy_instance_percent": 25,<br>  "max_unhealthy_upgraded_instance_percent": 25,<br>  "pause_time_between_batches": "PT30S"<br>}</pre> | no |
+| scale\_in\_force\_deletion | Whether the Virtual Machines chosen for removal should be force deleted when the Virtual Machine Scale Set is being scaled-in. | `bool` | `false` | no |
+| scale\_in\_policy | The scale-in policy rule that decides which Virtual Machines are chosen for removal when a Virtual Machine Scale Set is scaled in. Possible values for the scale-in policy rules are Default, NewestVM and OldestVM, defaults to Default. | `string` | `"Default"` | no |
+| source\_image\_id | ID of the Virtual Machines image to use. | `string` | `null` | no |
+| source\_image\_reference | Virtual Machines source image reference. | <pre>object({<br>    publisher = string<br>    offer     = string<br>    sku       = string<br>    version   = string<br>  })</pre> | `null` | no |
+| ssh\_private\_key | Private SSH key deployed on Scale set. | `string` | `null` | no |
+| ssh\_public\_key | Public SSH key deployed on Scale set. | `string` | `null` | no |
+| stack | Project stack name. | `string` | n/a | yes |
+| subnet\_id | ID of the subnet. | `string` | n/a | yes |
+| ultra\_ssd\_enabled | Whether UltraSSD\_LRS storage account type can be enabled. | `bool` | `false` | no |
 | upgrade\_mode | Specifies how Upgrades (e.g. changing the Image/SKU) should be performed to Virtual Machine Instances. Possible values are Automatic, Manual and Rolling. Defaults to Manual. | `string` | `"Manual"` | no |
 | use\_caf\_naming | Use the Azure CAF naming provider to generate default resource name. `custom_vmss_name` override this if set. Legacy default name is used if this is set to `false`. | `bool` | `true` | no |
 | user\_data | The Base64-Encoded User Data which should be used for this Virtual Machine Scale Set. | `string` | `null` | no |
-| vms\_sku | Specifies the size of virtual machines in a scale set | `string` | n/a | yes |
-| zone\_balance | Should the Virtual Machines in this Scale Set be strictly evenly distributed across Availability Zones? Changing this forces a new resource to be created. | `bool` | `true` | no |
+| vms\_size | Size (SKU) of Virtual Machines in a Scale Set. | `string` | n/a | yes |
+| zone\_balancing\_enabled | Whether the Virtual Machines in this Scale Set should be strictly evenly distributed across Availability Zones? Changing this forces a new resource to be created. | `bool` | `true` | no |
 | zones\_list | A list of Availability Zones in which the Virtual Machines in this Scale Set should be created in. Changing this forces a new resource to be created. | `list(number)` | <pre>[<br>  1,<br>  2,<br>  3<br>]</pre> | no |
 
 ## Outputs

@@ -1,3 +1,16 @@
+# Unreleased
+
+Breaking
+  * AZ-840: Update to Terraform `1.3`
+  * AZ-890: Refactor some variables names
+  * AZ-890: Extensions as separated resources
+
+Changed
+  * AZ-890: Use SSD disks by default
+  * AZ-890: Use ephemeral storage for OS on temp disk by default 
+  * AZ-890: Change some variables default value
+  * AZ-890: Remove Log Analytics agent
+
 # v6.3.0 - 2022-11-04
 
 Added

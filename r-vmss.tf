@@ -3,7 +3,7 @@ resource "azurerm_linux_virtual_machine_scale_set" "linux_vmss" {
   location            = var.location
   name                = local.vmss_name
   resource_group_name = var.resource_group_name
-  sku                 = var.vms_sku
+  sku                 = var.vms_size
 
   admin_username                  = var.admin_username
   admin_password                  = var.admin_password
@@ -41,7 +41,7 @@ resource "azurerm_linux_virtual_machine_scale_set" "linux_vmss" {
     name                          = local.nic_name
     primary                       = true
     dns_servers                   = var.dns_servers
-    enable_ip_forwarding          = var.ip_forwarding
+    enable_ip_forwarding          = var.ip_forwarding_enabled
     enable_accelerated_networking = var.accelerated_networking
     network_security_group_id     = var.network_security_group_id
 
@@ -57,12 +57,13 @@ resource "azurerm_linux_virtual_machine_scale_set" "linux_vmss" {
   }
 
   os_disk {
-    caching              = var.os_disk_caching
-    storage_account_type = var.os_disk_managed_disk_type
+    caching              = var.os_ephemeral_disk_enabled ? "ReadOnly" : var.os_disk_caching
+    storage_account_type = var.os_ephemeral_disk_enabled ? "Standard_LRS" : var.os_disk_managed_disk_type
     dynamic "diff_disk_settings" {
-      for_each = var.os_disk_is_local ? ["fake"] : []
+      for_each = var.os_ephemeral_disk_enabled ? ["fake"] : []
       content {
-        option = "Local"
+        option    = "Local"
+        placement = var.os_ephemeral_disk_placement
       }
     }
     disk_encryption_set_id    = var.os_disk_encryption_set_id
@@ -73,15 +74,16 @@ resource "azurerm_linux_virtual_machine_scale_set" "linux_vmss" {
   dynamic "data_disk" {
     for_each = var.data_disks
     content {
+      name                           = data_disk.name
       caching                        = data_disk.caching
       create_option                  = data_disk.create_option
       disk_size_gb                   = data_disk.disk_size_gb
       lun                            = data_disk.lun
       storage_account_type           = data_disk.storage_account_type
-      disk_encryption_set_id         = lookup(data_disk, "disk_encryption_set_id", null)
-      ultra_ssd_disk_iops_read_write = lookup(data_disk, "disk_iops_read_write", null)
-      ultra_ssd_disk_mbps_read_write = lookup(data_disk, "disk_mbps_read_write", null)
-      write_accelerator_enabled      = lookup(data_disk, "write_accelerator_enabled", false)
+      disk_encryption_set_id         = data_disk.disk_encryption_set_id
+      ultra_ssd_disk_iops_read_write = data_disk.disk_iops_read_write
+      ultra_ssd_disk_mbps_read_write = data_disk.disk_mbps_read_write
+      write_accelerator_enabled      = data_disk.write_accelerator_enabled
     }
   }
 
@@ -116,25 +118,29 @@ resource "azurerm_linux_virtual_machine_scale_set" "linux_vmss" {
     }
   }
 
-  scale_in_policy = var.scale_in_policy
-  overprovision   = var.overprovision
+  overprovision = var.overprovision
+
+  scale_in {
+    rule                   = var.scale_in_policy
+    force_deletion_enabled = var.scale_in_force_deletion
+  }
 
   lifecycle {
     ignore_changes = [instances]
   }
 
   dynamic "extension" {
-    for_each = var.extensions != {} ? var.extensions : {}
+    for_each = var.extensions
     content {
-      name                       = extension.key
+      name                       = extension.value.name
       publisher                  = extension.value.publisher
       type                       = extension.value.type
       type_handler_version       = extension.value.type_handler_version
-      auto_upgrade_minor_version = lookup(extension.value, "auto_upgrade_minor_version", true)
-      force_update_tag           = lookup(extension.value, "force_update_tag", null)
-      protected_settings         = lookup(extension.value, "protected_settings", null)
-      provision_after_extensions = lookup(extension.value, "provision_after_extensions", [])
-      settings                   = lookup(extension.value, "settings", null)
+      auto_upgrade_minor_version = extension.value.auto_upgrade_minor_version
+      force_update_tag           = extension.value.force_update_tag
+      protected_settings         = extension.value.protected_settings
+      provision_after_extensions = extension.value.provision_after_extensions
+      settings                   = extension.value.settings
     }
   }
 
@@ -146,7 +152,7 @@ resource "azurerm_linux_virtual_machine_scale_set" "linux_vmss" {
   }
 
   upgrade_mode = var.upgrade_mode
-  zone_balance = var.zone_balance
+  zone_balance = var.zone_balancing_enabled
   zones        = var.zones_list
 
   tags = merge(local.default_tags, var.extra_tags)

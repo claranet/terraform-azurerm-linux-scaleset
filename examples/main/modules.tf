@@ -91,7 +91,7 @@ module "linux_scaleset" {
   admin_username = "myusername"
   ssh_public_key = var.ssh_public_key
 
-  vms_sku = "Standard_B2s"
+  vms_size = "Standard_B2s"
 
   subnet_id = module.subnet.subnet_id
 
@@ -103,6 +103,4 @@ module "linux_scaleset" {
   }
 
   azure_monitor_data_collection_rule_id = module.az_monitor.data_collection_rule_id
-  log_analytics_workspace_guid          = module.logs.log_analytics_workspace_guid
-  log_analytics_workspace_key           = module.logs.log_analytics_workspace_primary_key
 }
