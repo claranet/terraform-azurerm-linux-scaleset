@@ -163,7 +163,7 @@ No modules.
 | admin\_username | Username of the administrator account of the Virtual Machines. | `string` | n/a | yes |
 | application\_gateway\_backend\_address\_pool\_ids | List of references to backend address pools of Application Gateways. A Scale Set can reference backend address pools of one Application Gateway. | `list(string)` | `[]` | no |
 | application\_security\_group\_ids | IDs of Application Security Group IDs (up to 20). | `list(string)` | `[]` | no |
-| automatic\_instance\_repair | Whether to enable automatic instance repair. Must have health\_probe\_id or an Application Health Extension | `bool` | `false` | no |
+| automatic\_instance\_repair | Whether to enable automatic instance repair. Must have health\_probe\_id or an Application Health Extension. | `bool` | `false` | no |
 | automatic\_os\_upgrade | Whether if automatic OS patches can be applied by Azure to your Scale Set. This is particularly useful when upgrade\_policy\_mode is set to Rolling. | `bool` | `false` | no |
 | azure\_monitor\_agent\_version | Azure Monitor Agent extension version | `string` | `"1.22"` | no |
 | azure\_monitor\_data\_collection\_rule\_id | Data Collection Rule ID from Azure Monitor for metrics and logs collection | `string` | n/a | yes |
@@ -209,7 +209,7 @@ No modules.
 | ssh\_private\_key | Private SSH key deployed on Scale set. | `string` | `null` | no |
 | ssh\_public\_key | Public SSH key deployed on Scale set. | `string` | `null` | no |
 | stack | Project stack name. | `string` | n/a | yes |
-| subnet\_id | ID of the subnet | `string` | n/a | yes |
+| subnet\_id | ID of the subnet. | `string` | n/a | yes |
 | ultra\_ssd\_enabled | Whether UltraSSD\_LRS storage account type can be enabled. | `bool` | `false` | no |
 | upgrade\_mode | Specifies how Upgrades (e.g. changing the Image/SKU) should be performed to Virtual Machine Instances. Possible values are Automatic, Manual and Rolling. Defaults to Manual. | `string` | `"Manual"` | no |
 | use\_caf\_naming | Use the Azure CAF naming provider to generate default resource name. `custom_vmss_name` override this if set. Legacy default name is used if this is set to `false`. | `bool` | `true` | no |

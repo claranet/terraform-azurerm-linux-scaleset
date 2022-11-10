@@ -65,7 +65,7 @@ variable "network_security_group_id" {
 }
 
 variable "subnet_id" {
-  description = "ID of the subnet"
+  description = "ID of the subnet."
   type        = string
 }
 
@@ -169,7 +169,7 @@ variable "rolling_upgrade_policy" {
 }
 
 variable "automatic_instance_repair" {
-  description = "Whether to enable automatic instance repair. Must have health_probe_id or an Application Health Extension"
+  description = "Whether to enable automatic instance repair. Must have health_probe_id or an Application Health Extension."
   type        = bool
   default     = false
 }
