@@ -1,4 +1,4 @@
-resource "azurecaf_name" "vmss_linux" {
+data "azurecaf_name" "vmss_linux" {
   name          = var.stack
   resource_type = "azurerm_linux_virtual_machine_scale_set"
   prefixes      = var.name_prefix == "" ? null : [local.name_prefix]
@@ -8,7 +8,7 @@ resource "azurecaf_name" "vmss_linux" {
   separator     = "-"
 }
 
-resource "azurecaf_name" "nic" {
+data "azurecaf_name" "nic" {
   name          = var.stack
   resource_type = "azurerm_network_interface"
   prefixes      = var.name_prefix == "" ? null : [local.name_prefix]
@@ -18,7 +18,7 @@ resource "azurecaf_name" "nic" {
   separator     = "-"
 }
 
-resource "azurecaf_name" "ipconfig" {
+data "azurecaf_name" "ipconfig" {
   name          = var.stack
   resource_type = "azurerm_resource_group"
   prefixes      = compact([local.name_prefix, var.use_caf_naming ? "ipconfig" : ""])
