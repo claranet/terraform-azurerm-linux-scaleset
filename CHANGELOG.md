@@ -1,3 +1,8 @@
+# Unreleased
+
+Fixed
+  * AZ-973: Update example to align with default `os_disk_size_gb` value and `accelerated_networking`
+
 # v7.1.0 - 2022-11-23
 
 Changed

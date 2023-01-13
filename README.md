@@ -116,7 +116,7 @@ module "linux_scaleset" {
   admin_username = "myusername"
   ssh_public_key = var.ssh_public_key
 
-  vms_size = "Standard_B2s"
+  vms_size = "Standard_D2d_v5"
 
   subnet_id = module.subnet.subnet_id
 
