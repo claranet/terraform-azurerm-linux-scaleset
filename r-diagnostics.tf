@@ -26,7 +26,7 @@ resource "azurerm_monitor_data_collection_rule_association" "dcr" {
   lifecycle {
     precondition {
       condition     = var.azure_monitor_data_collection_rule_id != "" && var.azure_monitor_data_collection_rule_id != null
-      error_message = "The `azure_monitor_data_collection_rule_id` value must be valid, not empty and not null. \nAzure Monitor can be disable with `var.azure_monitor_enabled = false`"
+      error_message = "The `azure_monitor_data_collection_rule_id` value must be valid, non-empty and non-null.\nAzure Monitor can be disabled with `var.azure_monitor_enabled = false`."
     }
   }
 }
