@@ -15,4 +15,11 @@ resource "azurerm_monitor_data_collection_rule_association" "dcr" {
   name                    = local.dcr_name
   target_resource_id      = azurerm_linux_virtual_machine_scale_set.linux_vmss.id
   data_collection_rule_id = var.azure_monitor_data_collection_rule_id
+
+  lifecycle {
+    precondition {
+      condition     = var.azure_monitor_data_collection_rule_id != "" && var.azure_monitor_data_collection_rule_id != null
+      error_message = "The `azure_monitor_data_collection_rule_id` value must be valid, not empty and not null. \nData Collection Rule can be disable with `azure_monitor_data_collection_rule_enabled = false`"
+    }
+  }
 }
