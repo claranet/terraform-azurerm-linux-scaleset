@@ -1,4 +1,6 @@
 resource "azurerm_virtual_machine_scale_set_extension" "azure_monitor_agent" {
+  count = var.azure_monitor_enabled ? 1 : 0
+
   name = "${azurerm_linux_virtual_machine_scale_set.linux_vmss.name}-azmonitorextension"
 
   publisher                  = "Microsoft.Azure.Monitor"
@@ -9,8 +11,13 @@ resource "azurerm_virtual_machine_scale_set_extension" "azure_monitor_agent" {
   virtual_machine_scale_set_id = azurerm_linux_virtual_machine_scale_set.linux_vmss.id
 }
 
+moved {
+  from = azurerm_virtual_machine_scale_set_extension.azure_monitor_agent
+  to   = azurerm_virtual_machine_scale_set_extension.azure_monitor_agent[0]
+}
+
 resource "azurerm_monitor_data_collection_rule_association" "dcr" {
-  count = var.azure_monitor_data_collection_rule_enabled ? 1 : 0
+  count = var.azure_monitor_enabled ? 1 : 0
 
   name                    = local.dcr_name
   target_resource_id      = azurerm_linux_virtual_machine_scale_set.linux_vmss.id
@@ -19,7 +26,12 @@ resource "azurerm_monitor_data_collection_rule_association" "dcr" {
   lifecycle {
     precondition {
       condition     = var.azure_monitor_data_collection_rule_id != "" && var.azure_monitor_data_collection_rule_id != null
-      error_message = "The `azure_monitor_data_collection_rule_id` value must be valid, not empty and not null. \nData Collection Rule can be disable with `azure_monitor_data_collection_rule_enabled = false`"
+      error_message = "The `azure_monitor_data_collection_rule_id` value must be valid, not empty and not null. \nAzure Monitor can be disable with `var.azure_monitor_enabled = false`"
     }
   }
+}
+
+moved {
+  from = azurerm_monitor_data_collection_rule_association.dcr
+  to   = azurerm_monitor_data_collection_rule_association.dcr[0]
 }
