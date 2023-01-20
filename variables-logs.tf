@@ -1,5 +1,5 @@
-variable "azure_monitor_enabled" {
-  description = "`true` to enable Azure Monitor with Agent and Data Collection Rule."
+variable "azure_monitor_agent_enabled" {
+  description = "Whether to enable Azure Monitor Agent. Requires a Data Collection Rule ID."
   type        = bool
   default     = true
 }

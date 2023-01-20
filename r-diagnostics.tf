@@ -1,5 +1,5 @@
 resource "azurerm_virtual_machine_scale_set_extension" "azure_monitor_agent" {
-  count = var.azure_monitor_enabled ? 1 : 0
+  count = var.azure_monitor_agent_enabled ? 1 : 0
 
   name = "${azurerm_linux_virtual_machine_scale_set.linux_vmss.name}-azmonitorextension"
 
@@ -17,7 +17,7 @@ moved {
 }
 
 resource "azurerm_monitor_data_collection_rule_association" "dcr" {
-  count = var.azure_monitor_enabled ? 1 : 0
+  count = var.azure_monitor_agent_enabled ? 1 : 0
 
   name                    = local.dcr_name
   target_resource_id      = azurerm_linux_virtual_machine_scale_set.linux_vmss.id
