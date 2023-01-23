@@ -1,4 +1,4 @@
-# Unreleased
+# v7.2.0 - 2023-01-23
 
 Added
   * AZ-985: Add option to disable Azure Monitor: Agent + Data Collection Rule
