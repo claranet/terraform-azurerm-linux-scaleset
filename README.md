@@ -165,15 +165,16 @@ No modules.
 | application\_security\_group\_ids | IDs of Application Security Group IDs (up to 20). | `list(string)` | `[]` | no |
 | automatic\_instance\_repair | Whether to enable automatic instance repair. Must have health\_probe\_id or an Application Health Extension. | `bool` | `false` | no |
 | automatic\_os\_upgrade | Whether if automatic OS patches can be applied by Azure to your Scale Set. This is particularly useful when upgrade\_policy\_mode is set to Rolling. | `bool` | `false` | no |
-| azure\_monitor\_agent\_version | Azure Monitor Agent extension version | `string` | `"1.22"` | no |
-| azure\_monitor\_data\_collection\_rule\_id | Data Collection Rule ID from Azure Monitor for metrics and logs collection | `string` | n/a | yes |
+| azure\_monitor\_agent\_enabled | Whether to enable Azure Monitor Agent. Requires a Data Collection Rule ID. | `bool` | `true` | no |
+| azure\_monitor\_agent\_version | Azure Monitor Agent extension version. | `string` | `"1.22"` | no |
+| azure\_monitor\_data\_collection\_rule\_id | Data Collection Rule ID from Azure Monitor for metrics and logs collection. | `string` | `""` | no |
 | boot\_diagnostics\_storage\_uri | Blob endpoint for the Storage Account to hold the Virtual Machines diagnostic files. | `string` | `""` | no |
 | client\_name | Client name/account used in naming. | `string` | n/a | yes |
 | custom\_data | The Base64-Encoded Custom Data which should be used for this Virtual Machine Scale Set. | `string` | `null` | no |
-| custom\_dcr\_name | Custom name for Data collection rule association | `string` | `null` | no |
-| custom\_ipconfig\_name | Custom name for Ipconfiguration | `string` | `null` | no |
-| custom\_nic\_name | Custom name for Network Interfaces | `string` | `null` | no |
-| custom\_vmss\_name | Custom name for the Virtual Machine ScaleSet | `string` | `null` | no |
+| custom\_dcr\_name | Custom name for Data collection rule association. | `string` | `null` | no |
+| custom\_ipconfig\_name | Custom name for Ipconfiguration. | `string` | `null` | no |
+| custom\_nic\_name | Custom name for Network Interfaces. | `string` | `null` | no |
+| custom\_vmss\_name | Custom name for the Virtual Machine ScaleSet. | `string` | `null` | no |
 | data\_disks | Data disks profiles to attach. | <pre>list(object({<br>    name                      = string<br>    lun                       = number<br>    disk_size_gb              = optional(number, null)<br>    create_option             = optional(string, "Empty")<br>    caching                   = optional(string, "None")<br>    storage_account_type      = optional(string, "StandardSSD_LRS")<br>    disk_encryption_set_id    = optional(string, null)<br>    disk_iops_read_write      = optional(string, null)<br>    disk_mbps_read_write      = optional(string, null)<br>    write_accelerator_enabled = optional(string, null)<br>  }))</pre> | `[]` | no |
 | default\_tags\_enabled | Option to enable or disable default tags. | `bool` | `true` | no |
 | disable\_automatic\_rollback | Disable automatic rollback in case of failures. | `bool` | `false` | no |
@@ -189,8 +190,8 @@ No modules.
 | load\_balancer\_inbound\_nat\_rules\_ids | List of references to inbound NAT rules for Load Balancers. | `list(string)` | `[]` | no |
 | location | Azure region to use. | `string` | n/a | yes |
 | location\_short | Short string for Azure location. | `string` | n/a | yes |
-| name\_prefix | Optional prefix for the generated name | `string` | `""` | no |
-| name\_suffix | Optional suffix for the generated name | `string` | `""` | no |
+| name\_prefix | Optional prefix for the generated name. | `string` | `""` | no |
+| name\_suffix | Optional suffix for the generated name. | `string` | `""` | no |
 | network\_security\_group\_id | ID of the Network Security Group. | `string` | `null` | no |
 | os\_disk\_caching | OS disk caching requirements [Possible values : None, ReadOnly, ReadWrite]. | `string` | `"None"` | no |
 | os\_disk\_encryption\_set\_id | ID of the Disk Encryption Set which should be used to encrypt the OS disk. | `string` | `null` | no |
