@@ -80,6 +80,10 @@ module "linux_scaleset" {
 
   subnet_id = module.subnet.subnet_id
 
+  # The feature must be activated upstream:
+  # az feature register --namespace Microsoft.Compute --name EncryptionAtHost --subscription <subscription_id_or_name>
+  encryption_at_host_enabled = true
+
   source_image_reference = {
     publisher = "Debian"
     offer     = "debian-10"

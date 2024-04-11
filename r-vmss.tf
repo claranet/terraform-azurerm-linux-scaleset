@@ -87,6 +87,7 @@ resource "azurerm_linux_virtual_machine_scale_set" "linux_vmss" {
     }
   }
 
+  encryption_at_host_enabled = var.encryption_at_host_enabled
 
   dynamic "automatic_os_upgrade_policy" {
     for_each = var.upgrade_mode == "Automatic" ? ["fake"] : []

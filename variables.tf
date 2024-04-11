@@ -140,6 +140,12 @@ variable "os_disk_write_accelerator_enabled" {
   default     = false
 }
 
+variable "encryption_at_host_enabled" {
+  description = "Should all disks (including the temporary disk) attached to Virtual Machines in a Scale Set be encrypted by enabling Encryption at Host? List of compatible VM sizes: https://learn.microsoft.com/en-us/azure/virtual-machines/linux/disks-enable-host-based-encryption-cli#finding-supported-vm-sizes."
+  type        = bool
+  default     = false
+}
+
 variable "automatic_os_upgrade" {
   description = "Whether if automatic OS patches can be applied by Azure to your Scale Set. This is particularly useful when upgrade_policy_mode is set to Rolling."
   type        = bool
