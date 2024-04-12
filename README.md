@@ -112,6 +112,10 @@ module "linux_scaleset" {
 
   subnet_id = module.subnet.subnet_id
 
+  # The feature must be activated upstream:
+  # az feature register --namespace Microsoft.Compute --name EncryptionAtHost --subscription <subscription_id_or_name>
+  encryption_at_host_enabled = true
+
   source_image_reference = {
     publisher = "Debian"
     offer     = "debian-10"
@@ -171,6 +175,7 @@ No modules.
 | default\_tags\_enabled | Option to enable or disable default tags. | `bool` | `true` | no |
 | disable\_automatic\_rollback | Disable automatic rollback in case of failures. | `bool` | `false` | no |
 | dns\_servers | List of DNS servers. | `list(string)` | `[]` | no |
+| encryption\_at\_host\_enabled | Should all disks (including the temporary disk) attached to Virtual Machines in a Scale Set be encrypted by enabling Encryption at Host? List of compatible VM sizes: https://learn.microsoft.com/en-us/azure/virtual-machines/linux/disks-enable-host-based-encryption-cli#finding-supported-vm-sizes. | `bool` | `false` | no |
 | environment | Project environment. | `string` | n/a | yes |
 | extensions | Extensions to add to the Scale Set. | <pre>list(object({<br>    name                        = string<br>    publisher                   = string<br>    type                        = string<br>    type_handler_version        = string<br>    auto_upgrade_minor_version  = optional(bool, true)<br>    automatic_upgrade_enabled   = optional(bool, false)<br>    failure_suppression_enabled = optional(bool, false)<br>    force_update_tag            = optional(string, null)<br>    protected_settings          = optional(string, null)<br>    provision_after_extensions  = optional(list(string), [])<br>    settings                    = optional(string, null)<br>  }))</pre> | `[]` | no |
 | extra\_tags | Additional tags to associate with your scale set. | `map(string)` | `{}` | no |
@@ -224,6 +229,7 @@ No modules.
 | system\_assigned\_identity | Identity block with principal ID |
 | terraform\_module | Information about this Terraform module |
 <!-- END_TF_DOCS -->
+
 ## Related documentation
 
 - Microsoft Azure documentation: [docs.microsoft.com/en-us/azure/virtual-machine-scale-sets/](https://docs.microsoft.com/en-us/azure/virtual-machine-scale-sets/)
