@@ -1,4 +1,4 @@
-# Unreleased
+# v7.3.0 - 2024-04-12
 
 Added
   * AZ-1342: Add `encryption_at_host_enabled` parameter
@@ -30,7 +30,7 @@ Breaking
 
 Changed
   * AZ-890: Use SSD disks by default
-  * AZ-890: Use ephemeral storage for OS on temp disk by default 
+  * AZ-890: Use ephemeral storage for OS on temp disk by default
   * AZ-890: Change some variables default value
   * AZ-890: Remove Log Analytics agent
 
