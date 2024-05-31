@@ -9,6 +9,12 @@ resource "azurerm_virtual_machine_scale_set_extension" "azure_monitor_agent" {
   auto_upgrade_minor_version = "true"
 
   virtual_machine_scale_set_id = azurerm_linux_virtual_machine_scale_set.linux_vmss.id
+
+  lifecycle {
+    ignore_changes = [
+      settings,
+    ]
+  }
 }
 
 moved {
