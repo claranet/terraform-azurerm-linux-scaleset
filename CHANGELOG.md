@@ -1,3 +1,25 @@
+## 7.3.2 (2024-05-31)
+
+
+### Bug Fixes
+
+* **AZ-1415:** fix perpetual drift on azure monitor agent extension 24714c2
+
+
+### Miscellaneous Chores
+
+* **deps:** update dependency opentofu to v1.7.0 f568ba8
+* **deps:** update dependency opentofu to v1.7.1 48ac9b9
+* **deps:** update dependency pre-commit to v3.7.1 b57d731
+* **deps:** update dependency terraform-docs to v0.18.0 f14e9ac
+* **deps:** update dependency tflint to v0.51.0 46d400b
+* **deps:** update dependency tflint to v0.51.1 60fa382
+* **deps:** update dependency trivy to v0.50.4 98f2d17
+* **deps:** update dependency trivy to v0.51.0 75130f1
+* **deps:** update dependency trivy to v0.51.1 83df222
+* **deps:** update dependency trivy to v0.51.2 ea70585
+* **deps:** update dependency trivy to v0.51.4 de16cf1
+
 ## 7.3.1 (2024-04-26)
 
 
