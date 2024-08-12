@@ -170,9 +170,17 @@ variable "rolling_upgrade_policy" {
 }
 
 variable "automatic_instance_repair" {
-  description = "Whether to enable automatic instance repair. Must have health_probe_id or an Application Health Extension."
-  type        = bool
-  default     = false
+  description = "Whether to enable automatic instance repair. Must have `var.health_probe_id` or an Application Health Extension."
+  type = object({
+    enabled      = optional(bool, false)
+    grace_period = optional(string, "PT10M")
+    action       = optional(string)
+  })
+  default = null
+  validation {
+    condition     = var.automatic_instance_repair == null || try(var.automatic_instance_repair.enabled, false) == false || (try(var.automatic_instance_repair.enabled, false) && contains(["Replace", "Restart", "Reimage"], coalesce(try(var.automatic_instance_repair.action), "Replace")))
+    error_message = "`var.automatic_instance_repair.action` value can only be one of 'Replace', 'Restart' or 'Reimage'."
+  }
 }
 
 variable "health_probe_id" {

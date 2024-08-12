@@ -132,7 +132,7 @@ module "linux_scaleset" {
 | Name | Version |
 |------|---------|
 | azurecaf | ~> 1.2, >= 1.2.22 |
-| azurerm | ~> 3.24 |
+| azurerm | ~> 3.115 |
 
 ## Modules
 
@@ -159,7 +159,7 @@ No modules.
 | admin\_username | Username of the administrator account of the Virtual Machines. | `string` | n/a | yes |
 | application\_gateway\_backend\_address\_pool\_ids | List of references to backend address pools of Application Gateways. A Scale Set can reference backend address pools of one Application Gateway. | `list(string)` | `[]` | no |
 | application\_security\_group\_ids | IDs of Application Security Group IDs (up to 20). | `list(string)` | `[]` | no |
-| automatic\_instance\_repair | Whether to enable automatic instance repair. Must have health\_probe\_id or an Application Health Extension. | `bool` | `false` | no |
+| automatic\_instance\_repair | Whether to enable automatic instance repair. Must have `var.health_probe_id` or an Application Health Extension. | <pre>object({<br>    enabled      = optional(bool, false)<br>    grace_period = optional(string, "PT10M")<br>    action       = optional(string)<br>  })</pre> | `null` | no |
 | automatic\_os\_upgrade | Whether if automatic OS patches can be applied by Azure to your Scale Set. This is particularly useful when upgrade\_policy\_mode is set to Rolling. | `bool` | `false` | no |
 | azure\_monitor\_agent\_enabled | Whether to enable Azure Monitor Agent. Requires a Data Collection Rule ID. | `bool` | `true` | no |
 | azure\_monitor\_agent\_version | Azure Monitor Agent extension version. | `string` | `"1.22"` | no |

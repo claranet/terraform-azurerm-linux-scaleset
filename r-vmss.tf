@@ -90,15 +90,20 @@ resource "azurerm_linux_virtual_machine_scale_set" "linux_vmss" {
   encryption_at_host_enabled = var.encryption_at_host_enabled
 
   dynamic "automatic_os_upgrade_policy" {
-    for_each = var.upgrade_mode == "Automatic" ? ["fake"] : []
+    for_each = var.upgrade_mode == "Automatic" ? ["enabled"] : []
     content {
       disable_automatic_rollback  = var.disable_automatic_rollback
       enable_automatic_os_upgrade = var.automatic_os_upgrade
     }
   }
 
-  automatic_instance_repair {
-    enabled = var.automatic_instance_repair
+  dynamic "automatic_instance_repair" {
+    for_each = var.automatic_instance_repair != null && var.automatic_instance_repair.enabled ? ["enabled"] : []
+    content {
+      enabled      = var.automatic_instance_repair.enabled
+      grace_period = var.automatic_instance_repair.grace_period
+      action       = var.automatic_instance_repair.action
+    }
   }
 
   boot_diagnostics {
