@@ -18,7 +18,7 @@ resource "azurerm_linux_virtual_machine_scale_set" "linux_vmss" {
   }
 
   dynamic "source_image_reference" {
-    for_each = var.source_image_id[*]
+    for_each = var.source_image_id == null ? [1] : []
     content {
       publisher = var.source_image_reference.publisher
       offer     = var.source_image_reference.offer

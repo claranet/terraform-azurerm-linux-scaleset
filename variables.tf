@@ -176,9 +176,11 @@ variable "automatic_instance_repair" {
     grace_period = optional(string, "PT10M")
     action       = optional(string)
   })
-  default = null
+  default  = {}
+  nullable = false
+
   validation {
-    condition     = var.automatic_instance_repair == null || try(var.automatic_instance_repair.enabled, false) == false || (try(var.automatic_instance_repair.enabled, false) && contains(["Replace", "Restart", "Reimage"], coalesce(try(var.automatic_instance_repair.action), "Replace")))
+    condition     = var.automatic_instance_repair == null || var.automatic_instance_repair.enabled == false || (var.automatic_instance_repair.enabled && contains(["Replace", "Restart", "Reimage"], coalesce(var.automatic_instance_repair.action, "Replace")))
     error_message = "`var.automatic_instance_repair.action` value can only be one of 'Replace', 'Restart' or 'Reimage'."
   }
 }
