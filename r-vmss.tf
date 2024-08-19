@@ -18,7 +18,7 @@ resource "azurerm_linux_virtual_machine_scale_set" "linux_vmss" {
   }
 
   dynamic "source_image_reference" {
-    for_each = var.source_image_id == null ? [1] : []
+    for_each = var.source_image_id == null ? ["enabled"] : []
     content {
       publisher = var.source_image_reference.publisher
       offer     = var.source_image_reference.offer
@@ -60,7 +60,7 @@ resource "azurerm_linux_virtual_machine_scale_set" "linux_vmss" {
     caching              = var.os_ephemeral_disk_enabled ? "ReadOnly" : var.os_disk_caching
     storage_account_type = var.os_ephemeral_disk_enabled ? "Standard_LRS" : var.os_disk_managed_disk_type
     dynamic "diff_disk_settings" {
-      for_each = var.os_ephemeral_disk_enabled ? ["fake"] : []
+      for_each = var.os_ephemeral_disk_enabled ? ["enabled"] : []
       content {
         option    = "Local"
         placement = var.os_ephemeral_disk_placement
@@ -151,7 +151,7 @@ resource "azurerm_linux_virtual_machine_scale_set" "linux_vmss" {
   }
 
   dynamic "additional_capabilities" {
-    for_each = var.ultra_ssd_enabled ? [1] : []
+    for_each = var.ultra_ssd_enabled ? ["enabled"] : []
     content {
       ultra_ssd_enabled = var.ultra_ssd_enabled
     }
