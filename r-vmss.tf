@@ -10,7 +10,7 @@ resource "azurerm_linux_virtual_machine_scale_set" "linux_vmss" {
   disable_password_authentication = var.admin_password != null ? false : true
 
   dynamic "admin_ssh_key" {
-    for_each = var.ssh_public_key != null ? ["fake"] : []
+    for_each = var.ssh_public_key[*]
     content {
       public_key = var.ssh_public_key
       username   = var.admin_username
@@ -18,7 +18,7 @@ resource "azurerm_linux_virtual_machine_scale_set" "linux_vmss" {
   }
 
   dynamic "source_image_reference" {
-    for_each = var.source_image_id == null ? ["fake"] : []
+    for_each = var.source_image_id == null ? ["enabled"] : []
     content {
       publisher = var.source_image_reference.publisher
       offer     = var.source_image_reference.offer
@@ -28,10 +28,10 @@ resource "azurerm_linux_virtual_machine_scale_set" "linux_vmss" {
   }
 
   dynamic "identity" {
-    for_each = var.identity != null ? ["fake"] : []
+    for_each = var.identity[*]
     content {
-      type         = lookup(var.identity, "type")
-      identity_ids = lookup(var.identity, "identity_ids", [])
+      type         = var.identity.type
+      identity_ids = var.identity.identity_ids
     }
   }
 
@@ -60,7 +60,7 @@ resource "azurerm_linux_virtual_machine_scale_set" "linux_vmss" {
     caching              = var.os_ephemeral_disk_enabled ? "ReadOnly" : var.os_disk_caching
     storage_account_type = var.os_ephemeral_disk_enabled ? "Standard_LRS" : var.os_disk_managed_disk_type
     dynamic "diff_disk_settings" {
-      for_each = var.os_ephemeral_disk_enabled ? ["fake"] : []
+      for_each = var.os_ephemeral_disk_enabled ? ["enabled"] : []
       content {
         option    = "Local"
         placement = var.os_ephemeral_disk_placement
@@ -90,15 +90,20 @@ resource "azurerm_linux_virtual_machine_scale_set" "linux_vmss" {
   encryption_at_host_enabled = var.encryption_at_host_enabled
 
   dynamic "automatic_os_upgrade_policy" {
-    for_each = var.upgrade_mode == "Automatic" ? ["fake"] : []
+    for_each = var.upgrade_mode == "Automatic" ? ["enabled"] : []
     content {
       disable_automatic_rollback  = var.disable_automatic_rollback
       enable_automatic_os_upgrade = var.automatic_os_upgrade
     }
   }
 
-  automatic_instance_repair {
-    enabled = var.automatic_instance_repair
+  dynamic "automatic_instance_repair" {
+    for_each = var.automatic_instance_repair != null && var.automatic_instance_repair.enabled ? ["enabled"] : []
+    content {
+      enabled      = var.automatic_instance_repair.enabled
+      grace_period = var.automatic_instance_repair.grace_period
+      action       = var.automatic_instance_repair.action
+    }
   }
 
   boot_diagnostics {
@@ -110,12 +115,12 @@ resource "azurerm_linux_virtual_machine_scale_set" "linux_vmss" {
   health_probe_id = var.health_probe_id
 
   dynamic "rolling_upgrade_policy" {
-    for_each = var.upgrade_mode != "Manual" ? ["fake"] : []
+    for_each = var.upgrade_mode != "Manual" ? ["enabled"] : []
     content {
-      max_batch_instance_percent              = lookup(var.rolling_upgrade_policy, "max_batch_instance_percent")
-      max_unhealthy_instance_percent          = lookup(var.rolling_upgrade_policy, "max_unhealthy_instance_percent")
-      max_unhealthy_upgraded_instance_percent = lookup(var.rolling_upgrade_policy, "max_unhealthy_upgraded_instance_percent")
-      pause_time_between_batches              = lookup(var.rolling_upgrade_policy, "pause_time_between_batches")
+      max_batch_instance_percent              = var.rolling_upgrade_policy.max_batch_instance_percent
+      max_unhealthy_instance_percent          = var.rolling_upgrade_policy.max_unhealthy_instance_percent
+      max_unhealthy_upgraded_instance_percent = var.rolling_upgrade_policy.max_unhealthy_upgraded_instance_percent
+      pause_time_between_batches              = var.rolling_upgrade_policy.pause_time_between_batches
     }
   }
 
@@ -146,7 +151,7 @@ resource "azurerm_linux_virtual_machine_scale_set" "linux_vmss" {
   }
 
   dynamic "additional_capabilities" {
-    for_each = var.ultra_ssd_enabled ? ["fake"] : []
+    for_each = var.ultra_ssd_enabled ? ["enabled"] : []
     content {
       ultra_ssd_enabled = var.ultra_ssd_enabled
     }

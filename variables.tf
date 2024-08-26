@@ -161,23 +161,28 @@ variable "disable_automatic_rollback" {
 variable "rolling_upgrade_policy" {
   description = "Rolling upgrade policy, only applicable when the upgrade_policy_mode is Rolling."
   type = object({
-    max_batch_instance_percent              = number
-    max_unhealthy_instance_percent          = number
-    max_unhealthy_upgraded_instance_percent = number
-    pause_time_between_batches              = string
+    max_batch_instance_percent              = optional(number, 25)
+    max_unhealthy_instance_percent          = optional(number, 25)
+    max_unhealthy_upgraded_instance_percent = optional(number, 25)
+    pause_time_between_batches              = optional(string, "PT30S")
   })
-  default = {
-    max_batch_instance_percent              = 25
-    max_unhealthy_instance_percent          = 25
-    max_unhealthy_upgraded_instance_percent = 25
-    pause_time_between_batches              = "PT30S"
-  }
+  default = null
 }
 
 variable "automatic_instance_repair" {
-  description = "Whether to enable automatic instance repair. Must have health_probe_id or an Application Health Extension."
-  type        = bool
-  default     = false
+  description = "Whether to enable automatic instance repair. Must have `var.health_probe_id` or an Application Health Extension."
+  type = object({
+    enabled      = optional(bool, false)
+    grace_period = optional(string, "PT10M")
+    action       = optional(string)
+  })
+  default  = {}
+  nullable = false
+
+  validation {
+    condition     = var.automatic_instance_repair == null || var.automatic_instance_repair.enabled == false || (var.automatic_instance_repair.enabled && contains(["Replace", "Restart", "Reimage"], coalesce(var.automatic_instance_repair.action, "Replace")))
+    error_message = "`var.automatic_instance_repair.action` value can only be one of 'Replace', 'Restart' or 'Reimage'."
+  }
 }
 
 variable "health_probe_id" {
@@ -319,7 +324,7 @@ variable "identity" {
   description = "Identity block information as described here https://www.terraform.io/docs/providers/azurerm/r/linux_virtual_machine_scale_set.html#identity."
   type = object({
     type         = string
-    identity_ids = list(string)
+    identity_ids = optional(list(string), [])
   })
   default = null
 }

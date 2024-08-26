@@ -132,7 +132,7 @@ module "linux_scaleset" {
 | Name | Version |
 |------|---------|
 | azurecaf | ~> 1.2, >= 1.2.22 |
-| azurerm | ~> 3.24 |
+| azurerm | ~> 3.115 |
 
 ## Modules
 
@@ -159,7 +159,7 @@ No modules.
 | admin\_username | Username of the administrator account of the Virtual Machines. | `string` | n/a | yes |
 | application\_gateway\_backend\_address\_pool\_ids | List of references to backend address pools of Application Gateways. A Scale Set can reference backend address pools of one Application Gateway. | `list(string)` | `[]` | no |
 | application\_security\_group\_ids | IDs of Application Security Group IDs (up to 20). | `list(string)` | `[]` | no |
-| automatic\_instance\_repair | Whether to enable automatic instance repair. Must have health\_probe\_id or an Application Health Extension. | `bool` | `false` | no |
+| automatic\_instance\_repair | Whether to enable automatic instance repair. Must have `var.health_probe_id` or an Application Health Extension. | <pre>object({<br>    enabled      = optional(bool, false)<br>    grace_period = optional(string, "PT10M")<br>    action       = optional(string)<br>  })</pre> | `{}` | no |
 | automatic\_os\_upgrade | Whether if automatic OS patches can be applied by Azure to your Scale Set. This is particularly useful when upgrade\_policy\_mode is set to Rolling. | `bool` | `false` | no |
 | azure\_monitor\_agent\_enabled | Whether to enable Azure Monitor Agent. Requires a Data Collection Rule ID. | `bool` | `true` | no |
 | azure\_monitor\_agent\_version | Azure Monitor Agent extension version. | `string` | `"1.22"` | no |
@@ -180,7 +180,7 @@ No modules.
 | extensions | Extensions to add to the Scale Set. | <pre>list(object({<br>    name                        = string<br>    publisher                   = string<br>    type                        = string<br>    type_handler_version        = string<br>    auto_upgrade_minor_version  = optional(bool, true)<br>    automatic_upgrade_enabled   = optional(bool, false)<br>    failure_suppression_enabled = optional(bool, false)<br>    force_update_tag            = optional(string, null)<br>    protected_settings          = optional(string, null)<br>    provision_after_extensions  = optional(list(string), [])<br>    settings                    = optional(string, null)<br>  }))</pre> | `[]` | no |
 | extra\_tags | Additional tags to associate with your scale set. | `map(string)` | `{}` | no |
 | health\_probe\_id | Specifies the identifier for the Load Balancer health probe. Required when using Rolling as your upgrade\_policy\_mode. | `string` | `null` | no |
-| identity | Identity block information as described here https://www.terraform.io/docs/providers/azurerm/r/linux_virtual_machine_scale_set.html#identity. | <pre>object({<br>    type         = string<br>    identity_ids = list(string)<br>  })</pre> | `null` | no |
+| identity | Identity block information as described here https://www.terraform.io/docs/providers/azurerm/r/linux_virtual_machine_scale_set.html#identity. | <pre>object({<br>    type         = string<br>    identity_ids = optional(list(string), [])<br>  })</pre> | `null` | no |
 | instances\_count | Number of instances in the Scale Set. | `number` | `2` | no |
 | ip\_forwarding\_enabled | Whether IP forwarding is enabled on this NIC. | `bool` | `false` | no |
 | load\_balancer\_backend\_address\_pool\_ids | List of references to backend address pools of Load Balancers. A Scale Set can reference backend address pools of one public and one internal Load Balancer. | `list(string)` | `[]` | no |
@@ -199,7 +199,7 @@ No modules.
 | os\_ephemeral\_disk\_placement | Placement for the local ephemeral disk. Value can be `CacheDisk` or `ResourceDisk`. See https://learn.microsoft.com/en-us/azure/virtual-machines/ephemeral-os-disks. | `string` | `"ResourceDisk"` | no |
 | overprovision | Should Azure over-provision Virtual Machines in this Scale Set? This means that multiple Virtual Machines will be provisioned and Azure will keep the instances which become available first - which improves provisioning success rates and improves deployment time. | `bool` | `true` | no |
 | resource\_group\_name | Name of the resource group. | `string` | n/a | yes |
-| rolling\_upgrade\_policy | Rolling upgrade policy, only applicable when the upgrade\_policy\_mode is Rolling. | <pre>object({<br>    max_batch_instance_percent              = number<br>    max_unhealthy_instance_percent          = number<br>    max_unhealthy_upgraded_instance_percent = number<br>    pause_time_between_batches              = string<br>  })</pre> | <pre>{<br>  "max_batch_instance_percent": 25,<br>  "max_unhealthy_instance_percent": 25,<br>  "max_unhealthy_upgraded_instance_percent": 25,<br>  "pause_time_between_batches": "PT30S"<br>}</pre> | no |
+| rolling\_upgrade\_policy | Rolling upgrade policy, only applicable when the upgrade\_policy\_mode is Rolling. | <pre>object({<br>    max_batch_instance_percent              = optional(number, 25)<br>    max_unhealthy_instance_percent          = optional(number, 25)<br>    max_unhealthy_upgraded_instance_percent = optional(number, 25)<br>    pause_time_between_batches              = optional(string, "PT30S")<br>  })</pre> | `null` | no |
 | scale\_in\_force\_deletion | Whether the Virtual Machines chosen for removal should be force deleted when the Virtual Machine Scale Set is being scaled-in. | `bool` | `false` | no |
 | scale\_in\_policy | The scale-in policy rule that decides which Virtual Machines are chosen for removal when a Virtual Machine Scale Set is scaled in. Possible values for the scale-in policy rules are Default, NewestVM and OldestVM, defaults to Default. | `string` | `"Default"` | no |
 | source\_image\_id | ID of the Virtual Machines image to use. | `string` | `null` | no |
