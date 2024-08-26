@@ -1,3 +1,37 @@
+## 7.4.0 (2024-08-26)
+
+### Features
+
+* tflint fixes 61db028
+
+### Bug Fixes
+
+* update `automatic_instance_repair` block and variable 6fd5832
+
+### Code Refactoring
+
+* simplify `var.automatic_instance_repair` validation condition 80d87be
+
+### Miscellaneous Chores
+
+* **deps:** update dependency opentofu to v1.7.2 61cf768
+* **deps:** update dependency opentofu to v1.7.3 cf209fa
+* **deps:** update dependency opentofu to v1.8.0 13bd5b0
+* **deps:** update dependency opentofu to v1.8.1 bbf2d24
+* **deps:** update dependency pre-commit to v3.8.0 ba68f30
+* **deps:** update dependency tflint to v0.51.2 2a07d73
+* **deps:** update dependency tflint to v0.52.0 c9930ad
+* **deps:** update dependency tflint to v0.53.0 b832f1b
+* **deps:** update dependency trivy to v0.52.0 3d1a762
+* **deps:** update dependency trivy to v0.52.1 d659bd6
+* **deps:** update dependency trivy to v0.52.2 379918a
+* **deps:** update dependency trivy to v0.53.0 1f3e8a8
+* **deps:** update dependency trivy to v0.54.1 3f76d5b
+* **deps:** update pre-commit hook antonbabenko/pre-commit-terraform to v1.92.0 0b08b0b
+* **deps:** update pre-commit hook antonbabenko/pre-commit-terraform to v1.92.1 fb79577
+* **deps:** update pre-commit hook antonbabenko/pre-commit-terraform to v1.92.2 84e8a0b
+* more tflint fixes ca63ce3
+
 ## 7.3.2 (2024-05-31)
 
 
