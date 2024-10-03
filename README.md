@@ -159,7 +159,7 @@ No modules.
 | admin\_username | Username of the administrator account of the Virtual Machines. | `string` | n/a | yes |
 | application\_gateway\_backend\_address\_pool\_ids | List of references to backend address pools of Application Gateways. A Scale Set can reference backend address pools of one Application Gateway. | `list(string)` | `[]` | no |
 | application\_security\_group\_ids | IDs of Application Security Group IDs (up to 20). | `list(string)` | `[]` | no |
-| automatic\_instance\_repair | Whether to enable automatic instance repair. Must have `var.health_probe_id` or an Application Health Extension. | <pre>object({<br>    enabled      = optional(bool, false)<br>    grace_period = optional(string, "PT10M")<br>    action       = optional(string)<br>  })</pre> | `{}` | no |
+| automatic\_instance\_repair | Whether to enable automatic instance repair. Must have `var.health_probe_id` or an Application Health Extension. | <pre>object({<br/>    enabled      = optional(bool, false)<br/>    grace_period = optional(string, "PT10M")<br/>    action       = optional(string)<br/>  })</pre> | `{}` | no |
 | automatic\_os\_upgrade | Whether if automatic OS patches can be applied by Azure to your Scale Set. This is particularly useful when upgrade\_policy\_mode is set to Rolling. | `bool` | `false` | no |
 | azure\_monitor\_agent\_enabled | Whether to enable Azure Monitor Agent. Requires a Data Collection Rule ID. | `bool` | `true` | no |
 | azure\_monitor\_agent\_version | Azure Monitor Agent extension version. | `string` | `"1.22"` | no |
@@ -171,16 +171,16 @@ No modules.
 | custom\_ipconfig\_name | Custom name for Ipconfiguration. | `string` | `null` | no |
 | custom\_nic\_name | Custom name for Network Interfaces. | `string` | `null` | no |
 | custom\_vmss\_name | Custom name for the Virtual Machine ScaleSet. | `string` | `null` | no |
-| data\_disks | Data disks profiles to attach. | <pre>list(object({<br>    name                      = string<br>    lun                       = number<br>    disk_size_gb              = optional(number, null)<br>    create_option             = optional(string, "Empty")<br>    caching                   = optional(string, "None")<br>    storage_account_type      = optional(string, "StandardSSD_LRS")<br>    disk_encryption_set_id    = optional(string, null)<br>    disk_iops_read_write      = optional(string, null)<br>    disk_mbps_read_write      = optional(string, null)<br>    write_accelerator_enabled = optional(string, null)<br>  }))</pre> | `[]` | no |
+| data\_disks | Data disks profiles to attach. | <pre>list(object({<br/>    name                      = string<br/>    lun                       = number<br/>    disk_size_gb              = optional(number, null)<br/>    create_option             = optional(string, "Empty")<br/>    caching                   = optional(string, "None")<br/>    storage_account_type      = optional(string, "StandardSSD_LRS")<br/>    disk_encryption_set_id    = optional(string, null)<br/>    disk_iops_read_write      = optional(string, null)<br/>    disk_mbps_read_write      = optional(string, null)<br/>    write_accelerator_enabled = optional(string, null)<br/>  }))</pre> | `[]` | no |
 | default\_tags\_enabled | Option to enable or disable default tags. | `bool` | `true` | no |
 | disable\_automatic\_rollback | Disable automatic rollback in case of failures. | `bool` | `false` | no |
 | dns\_servers | List of DNS servers. | `list(string)` | `[]` | no |
 | encryption\_at\_host\_enabled | Should all disks (including the temporary disk) attached to Virtual Machines in a Scale Set be encrypted by enabling Encryption at Host? List of compatible VM sizes: https://learn.microsoft.com/en-us/azure/virtual-machines/linux/disks-enable-host-based-encryption-cli#finding-supported-vm-sizes. | `bool` | `false` | no |
 | environment | Project environment. | `string` | n/a | yes |
-| extensions | Extensions to add to the Scale Set. | <pre>list(object({<br>    name                        = string<br>    publisher                   = string<br>    type                        = string<br>    type_handler_version        = string<br>    auto_upgrade_minor_version  = optional(bool, true)<br>    automatic_upgrade_enabled   = optional(bool, false)<br>    failure_suppression_enabled = optional(bool, false)<br>    force_update_tag            = optional(string, null)<br>    protected_settings          = optional(string, null)<br>    provision_after_extensions  = optional(list(string), [])<br>    settings                    = optional(string, null)<br>  }))</pre> | `[]` | no |
+| extensions | Extensions to add to the Scale Set. | <pre>list(object({<br/>    name                        = string<br/>    publisher                   = string<br/>    type                        = string<br/>    type_handler_version        = string<br/>    auto_upgrade_minor_version  = optional(bool, true)<br/>    automatic_upgrade_enabled   = optional(bool, false)<br/>    failure_suppression_enabled = optional(bool, false)<br/>    force_update_tag            = optional(string, null)<br/>    protected_settings          = optional(string, null)<br/>    provision_after_extensions  = optional(list(string), [])<br/>    settings                    = optional(string, null)<br/>  }))</pre> | `[]` | no |
 | extra\_tags | Additional tags to associate with your scale set. | `map(string)` | `{}` | no |
 | health\_probe\_id | Specifies the identifier for the Load Balancer health probe. Required when using Rolling as your upgrade\_policy\_mode. | `string` | `null` | no |
-| identity | Identity block information as described here https://www.terraform.io/docs/providers/azurerm/r/linux_virtual_machine_scale_set.html#identity. | <pre>object({<br>    type         = string<br>    identity_ids = optional(list(string), [])<br>  })</pre> | `null` | no |
+| identity | Identity block information as described here https://www.terraform.io/docs/providers/azurerm/r/linux_virtual_machine_scale_set.html#identity. | <pre>object({<br/>    type         = string<br/>    identity_ids = optional(list(string), [])<br/>  })</pre> | `null` | no |
 | instances\_count | Number of instances in the Scale Set. | `number` | `2` | no |
 | ip\_forwarding\_enabled | Whether IP forwarding is enabled on this NIC. | `bool` | `false` | no |
 | load\_balancer\_backend\_address\_pool\_ids | List of references to backend address pools of Load Balancers. A Scale Set can reference backend address pools of one public and one internal Load Balancer. | `list(string)` | `[]` | no |
@@ -199,11 +199,11 @@ No modules.
 | os\_ephemeral\_disk\_placement | Placement for the local ephemeral disk. Value can be `CacheDisk` or `ResourceDisk`. See https://learn.microsoft.com/en-us/azure/virtual-machines/ephemeral-os-disks. | `string` | `"ResourceDisk"` | no |
 | overprovision | Should Azure over-provision Virtual Machines in this Scale Set? This means that multiple Virtual Machines will be provisioned and Azure will keep the instances which become available first - which improves provisioning success rates and improves deployment time. | `bool` | `true` | no |
 | resource\_group\_name | Name of the resource group. | `string` | n/a | yes |
-| rolling\_upgrade\_policy | Rolling upgrade policy, only applicable when the upgrade\_policy\_mode is Rolling. | <pre>object({<br>    max_batch_instance_percent              = optional(number, 25)<br>    max_unhealthy_instance_percent          = optional(number, 25)<br>    max_unhealthy_upgraded_instance_percent = optional(number, 25)<br>    pause_time_between_batches              = optional(string, "PT30S")<br>  })</pre> | `null` | no |
+| rolling\_upgrade\_policy | Rolling upgrade policy, only applicable when the upgrade\_policy\_mode is Rolling. | <pre>object({<br/>    max_batch_instance_percent              = optional(number, 25)<br/>    max_unhealthy_instance_percent          = optional(number, 25)<br/>    max_unhealthy_upgraded_instance_percent = optional(number, 25)<br/>    pause_time_between_batches              = optional(string, "PT30S")<br/>  })</pre> | `null` | no |
 | scale\_in\_force\_deletion | Whether the Virtual Machines chosen for removal should be force deleted when the Virtual Machine Scale Set is being scaled-in. | `bool` | `false` | no |
 | scale\_in\_policy | The scale-in policy rule that decides which Virtual Machines are chosen for removal when a Virtual Machine Scale Set is scaled in. Possible values for the scale-in policy rules are Default, NewestVM and OldestVM, defaults to Default. | `string` | `"Default"` | no |
 | source\_image\_id | ID of the Virtual Machines image to use. | `string` | `null` | no |
-| source\_image\_reference | Virtual Machines source image reference. | <pre>object({<br>    publisher = string<br>    offer     = string<br>    sku       = string<br>    version   = string<br>  })</pre> | `null` | no |
+| source\_image\_reference | Virtual Machines source image reference. | <pre>object({<br/>    publisher = string<br/>    offer     = string<br/>    sku       = string<br/>    version   = string<br/>  })</pre> | `null` | no |
 | ssh\_private\_key | Private SSH key deployed on Scale set. | `string` | `null` | no |
 | ssh\_public\_key | Public SSH key deployed on Scale set. | `string` | `null` | no |
 | stack | Project stack name. | `string` | n/a | yes |
@@ -214,7 +214,7 @@ No modules.
 | user\_data | The Base64-Encoded User Data which should be used for this Virtual Machine Scale Set. | `string` | `null` | no |
 | vms\_size | Size (SKU) of Virtual Machines in a Scale Set. | `string` | n/a | yes |
 | zone\_balancing\_enabled | Whether the Virtual Machines in this Scale Set should be strictly evenly distributed across Availability Zones? Changing this forces a new resource to be created. | `bool` | `true` | no |
-| zones\_list | A list of Availability Zones in which the Virtual Machines in this Scale Set should be created in. Changing this forces a new resource to be created. | `list(number)` | <pre>[<br>  1,<br>  2,<br>  3<br>]</pre> | no |
+| zones\_list | A list of Availability Zones in which the Virtual Machines in this Scale Set should be created in. Changing this forces a new resource to be created. | `list(number)` | <pre>[<br/>  1,<br/>  2,<br/>  3<br/>]</pre> | no |
 
 ## Outputs
 
