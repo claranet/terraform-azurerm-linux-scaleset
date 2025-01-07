@@ -132,7 +132,11 @@ resource "azurerm_linux_virtual_machine_scale_set" "linux_vmss" {
   }
 
   lifecycle {
-    ignore_changes = [instances]
+    ignore_changes = [
+      instances,
+      tags["__AzureDevOpsElasticPool"],
+      tags["__AzureDevOpsElasticPoolTimeStamp"],
+    ]
   }
 
   dynamic "extension" {
