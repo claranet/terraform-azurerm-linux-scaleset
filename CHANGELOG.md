@@ -1,3 +1,31 @@
+## 7.5.1 (2025-01-08)
+
+### Bug Fixes
+
+* perpetual drift on VMSS managed by Azure DevOps 4edcd29
+
+### Miscellaneous Chores
+
+* **deps:** update dependency opentofu to v1.8.3 8bad6bc
+* **deps:** update dependency opentofu to v1.8.4 3db2482
+* **deps:** update dependency opentofu to v1.8.6 c25405c
+* **deps:** update dependency opentofu to v1.8.8 09943e6
+* **deps:** update dependency pre-commit to v4 26384de
+* **deps:** update dependency pre-commit to v4.0.1 04a11b6
+* **deps:** update dependency tflint to v0.54.0 4718913
+* **deps:** update dependency trivy to v0.56.1 d4253be
+* **deps:** update dependency trivy to v0.56.2 df422c9
+* **deps:** update dependency trivy to v0.57.1 d3008fd
+* **deps:** update dependency trivy to v0.58.1 7e5f012
+* **deps:** update pre-commit hook alessandrojcm/commitlint-pre-commit-hook to v9.19.0 6f6b00b
+* **deps:** update pre-commit hook alessandrojcm/commitlint-pre-commit-hook to v9.20.0 d3ed2c7
+* **deps:** update pre-commit hook pre-commit/pre-commit-hooks to v5 03116ea
+* **deps:** update pre-commit hook tofuutils/pre-commit-opentofu to v2.1.0 c226fa0
+* **deps:** update tools 76280cf
+* **deps:** update tools 487bd2e
+* prepare for new examples structure db2f9ef
+* update examples structure b1c54e3
+
 ## 7.5.0 (2024-10-03)
 
 ### Features
