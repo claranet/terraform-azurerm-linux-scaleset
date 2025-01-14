@@ -137,7 +137,7 @@ resource "azurerm_linux_virtual_machine_scale_set" "main" {
     for_each = var.identity[*]
     content {
       type         = identity.value.type
-      identity_ids = contains(["UserAssigned", "SystemAssigned, UserAssigned"], var.identity.type) ? identity.value.identity_ids : null
+      identity_ids = endswith(var.identity.type, "UserAssigned") ? identity.value.identity_ids : null
     }
   }
 
