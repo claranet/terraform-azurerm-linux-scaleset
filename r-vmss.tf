@@ -25,7 +25,7 @@ resource "azurerm_linux_virtual_machine_scale_set" "main" {
     dns_servers                   = var.dns_servers
     enable_ip_forwarding          = var.ip_forwarding_enabled
     enable_accelerated_networking = var.accelerated_networking_enabled
-    network_security_group_id     = var.network_security_group != null ? var.network_security_group.id : null
+    network_security_group_id     = try(var.network_security_group.id, null)
 
     ip_configuration {
       name                                         = local.ip_configuration_name
@@ -102,7 +102,7 @@ resource "azurerm_linux_virtual_machine_scale_set" "main" {
     }
   }
 
-  health_probe_id = var.health_probe != null ? var.health_probe.id : null
+  health_probe_id = try(var.health_probe.id, null)
 
   dynamic "automatic_instance_repair" {
     for_each = var.automatic_instance_repair.enabled ? var.automatic_instance_repair[*] : []

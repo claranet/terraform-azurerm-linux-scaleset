@@ -39,11 +39,6 @@ resource "azurerm_monitor_data_collection_rule_association" "main" {
 }
 
 moved {
-  from = azurerm_monitor_data_collection_rule_association.dcr
-  to   = azurerm_monitor_data_collection_rule_association.dcr[0]
-}
-
-moved {
   from = azurerm_monitor_data_collection_rule_association.dcr[0]
   to   = azurerm_monitor_data_collection_rule_association.main[0]
 }

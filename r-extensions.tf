@@ -19,13 +19,6 @@ resource "azurerm_virtual_machine_scale_set_extension" "main" {
   failure_suppression_enabled = each.value.failure_suppression_enabled
   provision_after_extensions  = each.value.provision_after_extensions
   force_update_tag            = each.value.force_update_tag
-
-  lifecycle {
-    ignore_changes = [
-      settings,
-      protected_settings,
-    ]
-  }
 }
 
 moved {
