@@ -11,33 +11,27 @@ variable "name_suffix" {
   default     = ""
 }
 
-variable "use_caf_naming" {
-  description = "Use the Azure CAF naming provider to generate default resource name. `custom_vmss_name` override this if set. Legacy default name is used if this is set to `false`."
-  type        = bool
-  default     = true
-}
-
 # Custom naming override
-variable "custom_vmss_name" {
-  description = "Custom name for the Virtual Machine ScaleSet."
+variable "custom_name" {
+  description = "Custom name for the Virtual Machine Scale Sets. Generated if not set."
   type        = string
   default     = null
 }
 
-variable "custom_nic_name" {
-  description = "Custom name for Network Interfaces."
+variable "nic_custom_name" {
+  description = "Custom name for the network interfaces. Generated if not set."
   type        = string
   default     = null
 }
 
-variable "custom_ipconfig_name" {
-  description = "Custom name for Ipconfiguration."
+variable "ip_configuration_custom_name" {
+  description = "Custom name for the IP configuration of the network interfaces. Generated if not set."
   type        = string
   default     = null
 }
 
-variable "custom_dcr_name" {
-  description = "Custom name for Data collection rule association."
+variable "dcr_custom_name" {
+  description = "Custom name for the Data Collection Rule association."
   type        = string
   default     = null
 }
