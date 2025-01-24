@@ -1,3 +1,26 @@
+## 8.0.0 (2025-01-24)
+
+### ⚠ BREAKING CHANGES
+
+* **AZ-1088:** module v8 structure and updates
+
+### Features
+
+* **AZ-1088:** apply suggestions c6d8196
+* **AZ-1088:** module v8 structure and updates 98e007a
+
+### Code Refactoring
+
+* **AZ-1088:** improve code 7e12cf8
+
+### Miscellaneous Chores
+
+* **deps:** update dependency opentofu to v1.9.0 ac2977c
+* **deps:** update dependency pre-commit to v4.1.0 ac9f483
+* **deps:** update dependency tflint to v0.55.0 5eb573d
+* **deps:** update dependency trivy to v0.58.2 d84fbe1
+* update tflint config for v0.55.0 1812db5
+
 ## 7.5.1 (2025-01-08)
 
 ### Bug Fixes
