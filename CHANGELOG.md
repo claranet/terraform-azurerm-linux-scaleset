@@ -1,3 +1,14 @@
+## 8.0.1 (2025-02-04)
+
+### Bug Fixes
+
+* update `var.identity` default value and validation condition 51d76cb
+
+### Miscellaneous Chores
+
+* **deps:** update tools cef586a
+* update Github templates 8307611
+
 ## 8.0.0 (2025-01-24)
 
 ### ⚠ BREAKING CHANGES
