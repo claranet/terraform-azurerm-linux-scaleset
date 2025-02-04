@@ -63,7 +63,7 @@ module "linux_scaleset" {
     id = module.run.data_collection_rule_id
   }
 
-  identity = {
-    type = "SystemAssigned"
+  extra_tags = {
+    "extra-tag" = "extra-tag-value"
   }
 }
