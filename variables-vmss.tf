@@ -329,13 +329,13 @@ variable "scale_in_force_deletion_enabled" {
 variable "identity" {
   description = "Identity block information as described in this [documentation](https://www.terraform.io/docs/providers/azurerm/r/linux_virtual_machine_scale_set.html#identity)."
   type = object({
-    type         = string
+    type         = optional(string, "SystemAssigned")
     identity_ids = optional(list(string))
   })
-  default = null
+  default = {}
 
   validation {
-    condition     = var.identity == null || contains(["SystemAssigned", "UserAssigned", "SystemAssigned, UserAssigned"], lookup(var.identity, "type", "SystemAssigned"))
+    condition     = var.identity == null || contains(["SystemAssigned", "UserAssigned", "SystemAssigned, UserAssigned"], try(var.identity.type, "SystemAssigned"))
     error_message = "`var.identity.type` must be one of 'SystemAssigned', 'UserAssigned' or 'SystemAssigned, UserAssigned'."
   }
 }

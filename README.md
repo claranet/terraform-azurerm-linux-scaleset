@@ -99,8 +99,8 @@ module "linux_scaleset" {
     id = module.run.data_collection_rule_id
   }
 
-  identity = {
-    type = "SystemAssigned"
+  extra_tags = {
+    "extra-tag" = "extra-tag-value"
   }
 }
 ```
@@ -156,7 +156,7 @@ No modules.
 | extensions | Extensions to add to the Scale Set. | <pre>list(object({<br/>    name                        = string<br/>    publisher                   = string<br/>    type                        = string<br/>    type_handler_version        = string<br/>    auto_upgrade_minor_version  = optional(bool, true)<br/>    automatic_upgrade_enabled   = optional(bool, false)<br/>    failure_suppression_enabled = optional(bool, false)<br/>    force_update_tag            = optional(string)<br/>    protected_settings          = optional(string)<br/>    provision_after_extensions  = optional(list(string))<br/>    settings                    = optional(string)<br/>  }))</pre> | `[]` | no |
 | extra\_tags | Additional tags to associate with the Scale Set. | `map(string)` | `{}` | no |
 | health\_probe | Specifies the identifier for the Load Balancer health probe. Required when `var.upgrade_mode = "Automatic" or "Rolling"`. | <pre>object({<br/>    id = string<br/>  })</pre> | `null` | no |
-| identity | Identity block information as described in this [documentation](https://www.terraform.io/docs/providers/azurerm/r/linux_virtual_machine_scale_set.html#identity). | <pre>object({<br/>    type         = string<br/>    identity_ids = optional(list(string))<br/>  })</pre> | `null` | no |
+| identity | Identity block information as described in this [documentation](https://www.terraform.io/docs/providers/azurerm/r/linux_virtual_machine_scale_set.html#identity). | <pre>object({<br/>    type         = optional(string, "SystemAssigned")<br/>    identity_ids = optional(list(string))<br/>  })</pre> | `{}` | no |
 | instance\_count | Number of instances in the Scale Set. Defaults to `2`. | `number` | `2` | no |
 | ip\_configuration\_custom\_name | Custom name for the IP configuration of the network interfaces. Generated if not set. | `string` | `null` | no |
 | ip\_forwarding\_enabled | Does this network interface support IP forwarding? Defaults to `false`. | `bool` | `false` | no |
