@@ -1,3 +1,25 @@
+## 8.0.2 (2025-05-16)
+
+### Bug Fixes
+
+* **AZ-1555:** edit bootdiagnostic URL d12c046
+
+### Miscellaneous Chores
+
+* **deps:** update dependency opentofu to v1.9.1 895d1ad
+* **deps:** update dependency pre-commit to v4.2.0 9fde154
+* **deps:** update dependency terraform-docs to v0.20.0 dc09014
+* **deps:** update dependency tflint to v0.57.0 e7bda14
+* **deps:** update dependency trivy to v0.59.1 2461b53
+* **deps:** update dependency trivy to v0.60.0 893845b
+* **deps:** update dependency trivy to v0.61.1 cf4343b
+* **deps:** update dependency trivy to v0.62.0 e69cfb8
+* **deps:** update dependency trivy to v0.62.1 eb96d7e
+* **deps:** update pre-commit hook alessandrojcm/commitlint-pre-commit-hook to v9.21.0 7437e54
+* **deps:** update pre-commit hook alessandrojcm/commitlint-pre-commit-hook to v9.22.0 9e4dbe9
+* **deps:** update pre-commit hook tofuutils/pre-commit-opentofu to v2.2.0 6b6bedc
+* **deps:** update tools fda9216
+
 ## 8.0.1 (2025-02-04)
 
 ### Bug Fixes
