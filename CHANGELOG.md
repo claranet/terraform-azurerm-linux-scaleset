@@ -1,3 +1,30 @@
+## 8.0.3 (2025-09-30)
+
+### Code Refactoring
+
+* **deps:** 🔗 update claranet/azurecaf to ~> 1.3.0 🔧 b4a42e0
+
+### Miscellaneous Chores
+
+* **⚙️:** ✏️ update template identifier for MR review 9d7f49d
+* 🗑️ remove old commitlint configuration files 6a15199
+* **deps:** 🔗 bump AzureRM provider version to v4.31+ 7249c1f
+* **deps:** update dependency opentofu to v1.10.0 2baeb43
+* **deps:** update dependency opentofu to v1.10.1 3b6f13d
+* **deps:** update dependency opentofu to v1.10.3 edf6de1
+* **deps:** update dependency opentofu to v1.10.6 f789ca3
+* **deps:** update dependency tflint to v0.58.0 873f955
+* **deps:** update dependency tflint to v0.58.1 8090f36
+* **deps:** update dependency tflint to v0.59.1 8885f00
+* **deps:** update dependency trivy to v0.63.0 87b7544
+* **deps:** update dependency trivy to v0.66.0 2ecc035
+* **deps:** update dependency trivy to v0.67.0 e40b0ad
+* **deps:** update pre-commit hook pre-commit/pre-commit-hooks to v6 cdf79f3
+* **deps:** update pre-commit hook tofuutils/pre-commit-opentofu to v2.2.1 8744b8b
+* **deps:** update tools fd1d933
+* **deps:** update tools 33dcbc6
+* **deps:** update tools 68df661
+
 ## 8.0.2 (2025-05-16)
 
 ### Bug Fixes
