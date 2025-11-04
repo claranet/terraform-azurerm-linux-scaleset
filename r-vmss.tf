@@ -144,7 +144,7 @@ resource "azurerm_linux_virtual_machine_scale_set" "main" {
   dynamic "boot_diagnostics" {
     for_each = var.diagnostics_storage_account_name[*]
     content {
-      storage_account_uri = "https://${boot_diagnostics.value}.blob.core.windows.net"
+      storage_account_uri = "https://${boot_diagnostics.value}.blob.core.windows.net/"
     }
   }
 
