@@ -1,3 +1,15 @@
+## 8.0.4 (2025-11-04)
+
+### Bug Fixes
+
+* 🐛 fix blob storage uri perpetual drift for boot diagnostics 21207b8
+
+### Miscellaneous Chores
+
+* **deps:** update dependency trivy to v0.67.1 1077f94
+* **deps:** update dependency trivy to v0.67.2 2535d8c
+* **deps:** update pre-commit hook tofuutils/pre-commit-opentofu to v2.2.2 28b91b7
+
 ## 8.0.3 (2025-09-30)
 
 ### Code Refactoring
