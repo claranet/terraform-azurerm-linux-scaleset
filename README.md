@@ -108,7 +108,7 @@ module "linux_scaleset" {
 ## Providers
 
 | Name | Version |
-|------|---------|
+| ---- | ------- |
 | azurecaf | >= 1.2.28 |
 | azurerm | ~> 4.31 |
 
@@ -119,7 +119,7 @@ No modules.
 ## Resources
 
 | Name | Type |
-|------|------|
+| ---- | ---- |
 | [azurerm_linux_virtual_machine_scale_set.main](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/linux_virtual_machine_scale_set) | resource |
 | [azurerm_monitor_data_collection_rule_association.main](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_data_collection_rule_association) | resource |
 | [azurerm_virtual_machine_scale_set_extension.azure_monitor_agent](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/virtual_machine_scale_set_extension) | resource |
@@ -131,7 +131,7 @@ No modules.
 ## Inputs
 
 | Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:--------:|
+| ---- | ----------- | ---- | ------- | :------: |
 | accelerated\_networking\_enabled | Should accelerated networking be enabled? Defaults to `true`. | `bool` | `true` | no |
 | admin\_password | Password for the Scale Set administrator account. One of either `var.admin_password` or `var.ssh_public_key` must be specified. Changing this forces a new resource to be created. | `string` | `null` | no |
 | admin\_username | Username of the Scale Set administrator account. | `string` | n/a | yes |
@@ -197,7 +197,7 @@ No modules.
 ## Outputs
 
 | Name | Description |
-|------|-------------|
+| ---- | ----------- |
 | admin\_password | Scale Set admin password. |
 | admin\_ssh\_private\_key | Scale Set admin SSH private key. |
 | admin\_ssh\_public\_key | Scale Set admin SSH public key. |
