@@ -1,6 +1,7 @@
 output "resource" {
   description = "Scale Set resource object."
   value       = azurerm_linux_virtual_machine_scale_set.main
+  sensitive   = true
 }
 
 output "id" {
