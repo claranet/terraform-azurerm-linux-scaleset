@@ -20,12 +20,12 @@ resource "azurerm_linux_virtual_machine_scale_set" "main" {
   }
 
   network_interface {
-    name                          = local.nic_name
-    primary                       = true
-    dns_servers                   = var.dns_servers
-    enable_ip_forwarding          = var.ip_forwarding_enabled
-    enable_accelerated_networking = var.accelerated_networking_enabled
-    network_security_group_id     = try(var.network_security_group.id, null)
+    name                           = local.nic_name
+    primary                        = true
+    dns_servers                    = var.dns_servers
+    ip_forwarding_enabled          = var.ip_forwarding_enabled
+    accelerated_networking_enabled = var.accelerated_networking_enabled
+    network_security_group_id      = try(var.network_security_group.id, null)
 
     ip_configuration {
       name                                         = local.ip_configuration_name
@@ -68,15 +68,15 @@ resource "azurerm_linux_virtual_machine_scale_set" "main" {
     for_each = var.data_disks
     content {
       # name                         = data_disk.value.name
-      lun                            = data_disk.value.lun
-      disk_size_gb                   = data_disk.value.disk_size_gb
-      create_option                  = data_disk.value.create_option
-      caching                        = data_disk.value.caching
-      storage_account_type           = data_disk.value.storage_account_type
-      disk_encryption_set_id         = data_disk.value.disk_encryption_set_id
-      ultra_ssd_disk_iops_read_write = contains(["PremiumV2_LRS", "UltraSSD_LRS"], data_disk.value.storage_account_type) ? data_disk.value.disk_iops_read_write : null
-      ultra_ssd_disk_mbps_read_write = contains(["PremiumV2_LRS", "UltraSSD_LRS"], data_disk.value.storage_account_type) ? data_disk.value.disk_mbps_read_write : null
-      write_accelerator_enabled      = contains(["None", "ReadOnly"], data_disk.value.caching) ? data_disk.value.write_accelerator_enabled : false
+      lun                       = data_disk.value.lun
+      disk_size_gb              = data_disk.value.disk_size_gb
+      create_option             = data_disk.value.create_option
+      caching                   = data_disk.value.caching
+      storage_account_type      = data_disk.value.storage_account_type
+      disk_encryption_set_id    = data_disk.value.disk_encryption_set_id
+      disk_iops_read_write      = contains(["PremiumV2_LRS", "UltraSSD_LRS"], data_disk.value.storage_account_type) ? data_disk.value.disk_iops_read_write : null
+      disk_mbps_read_write      = contains(["PremiumV2_LRS", "UltraSSD_LRS"], data_disk.value.storage_account_type) ? data_disk.value.disk_mbps_read_write : null
+      write_accelerator_enabled = contains(["None", "ReadOnly"], data_disk.value.caching) ? data_disk.value.write_accelerator_enabled : false
     }
   }
 
@@ -97,8 +97,8 @@ resource "azurerm_linux_virtual_machine_scale_set" "main" {
   dynamic "automatic_os_upgrade_policy" {
     for_each = var.upgrade_mode != "Manual" ? [0] : []
     content {
-      disable_automatic_rollback  = !var.automatic_rollback_enabled
-      enable_automatic_os_upgrade = var.automatic_os_upgrade_enabled
+      automatic_rollback_enabled   = var.automatic_rollback_enabled
+      automatic_os_upgrade_enabled = var.automatic_os_upgrade_enabled
     }
   }
 
